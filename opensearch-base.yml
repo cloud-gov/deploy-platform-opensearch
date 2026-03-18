@@ -175,7 +175,7 @@ instance_groups:
   instances: 1
   vm_extensions:
     - 20GB_ephemeral_disk
-    - logs-platform-ingestor-profile
+    - logs-opensearch-ingestor-profile
   jobs:
   - name: bpm
     release: bpm
@@ -386,7 +386,7 @@ instance_groups:
   azs: [z1,z2]
   vm_type: t3.medium
   vm_extensions:
-  - logs-platform-ingestor-profile
+  - logs-opensearch-ingestor-profile
   - 20GB_ephemeral_disk
   networks:
   - name: services

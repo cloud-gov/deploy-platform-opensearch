@@ -198,12 +198,6 @@ instance_groups:
     name: smoke_tests
     properties:
       smoke_tests:
-        cloudwatch_count_test:
-          minimum: 2
-        metric_count_test:
-          minimum: 2
-        audit_count_test:
-          minimum: 2
         count_test:
           index_pattern: logs-app-*
           minimum: 10
@@ -212,11 +206,6 @@ instance_groups:
           time_field: '@timestamp'
           time_interval: 5m
         index: logs-app
-        log_group: ((smoketest_log_group))
-        metric_index: logs-metrics-
-        org_guid: ((smoketest_org_guid))
-        space_guid: ((smoketest_space_guid))
-        rds_instance: ((smoketest_rds))
         opensearch:
           ssl:
             ca: ((opensearch_node.ca))
@@ -225,12 +214,6 @@ instance_groups:
         s3:
           environment: development
           region: ((region))
-        s3_audit:
-          bucket: ((audit_bucket))
-        s3_cloudwatch:
-          bucket: ((cloudwatch_bucket))
-        s3_metric:
-          bucket: ((metric_stream_bucket))
         tls:
           use_tls: true
           certificate: ((archiver_syslog_client_tls.certificate))

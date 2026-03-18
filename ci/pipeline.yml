@@ -168,8 +168,8 @@ resources:
     type: git
     source:
       commit_verification_keys: ((cloud-gov-pgp-keys))
-      uri: https://github.com/cloud-gov/deploy-logs-platform.git
-      branch: main
+      uri: https://github.com/cloud-gov/deploy-platform-opensearch.git
+      branch: platform
   - name: opensearch-stemcell-jammy
     source:
       name: bosh-aws-xen-hvm-ubuntu-jammy-go_agent

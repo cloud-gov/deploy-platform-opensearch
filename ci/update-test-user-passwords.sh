@@ -14,7 +14,7 @@ for credential_name in $TEST_USER_CREDENTIAL_NAMES; do
   printf "updating password credential for %s\n\n" "$credential_name"
 
   # Generate a new password for the credential
-  PASSWORD_CREDENTIAL="/concourse/main/deploy-logs-opensearch/$credential_name"
+  PASSWORD_CREDENTIAL="/concourse/main/deploy-logs-platform/$credential_name"
   if ! credhub get -n "$PASSWORD_CREDENTIAL" > /dev/null; then
     credhub generate -n "$PASSWORD_CREDENTIAL" --type password
   else 

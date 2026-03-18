@@ -12,13 +12,13 @@ image_resource:
 
 inputs:
   - name: release-git-repo
-  - name: deploy-logs-opensearch-config
+  - name: deploy-logs-platform-config
   - name: final-builds-dir-tarball
   - name: releases-dir-tarball
 outputs:
   - name: finalized-release
 run:
-  path: deploy-logs-opensearch-config/ci/create-bosh-test-release.sh
+  path: deploy-logs-platform-config/ci/create-bosh-test-release.sh
 
 params:
   PRIVATE_YML_CONTENT:

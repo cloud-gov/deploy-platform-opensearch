@@ -1,13 +1,13 @@
 platform: linux
 
 inputs:
-- name: deploy-logs-opensearch-config
+- name: deploy-logs-platform-config
 
 run:
   path: sh
   args:
   - -c
   - |
-   cd deploy-logs-opensearch-config/
+   cd deploy-logs-platform-config/
    python -m pip install -r requirements-test.txt
    python -m pytest tests

@@ -39,25 +39,6 @@
   path: /instance_groups/name=ingestor/jobs/name=opensearch/properties?/opensearch?/enable_proxy_auth
   value: true
 
-# ingestor_cloudwatch_logs
-- type: replace
-  path: /instance_groups/name=ingestor_cloudwatch_logs/jobs/name=opensearch/properties?/opensearch?/enable_proxy_auth
-  value: true
-  
-# ingestor_s3
-- type: replace
-  path: /instance_groups/name=ingestor_s3/jobs/name=opensearch/properties?/opensearch?/enable_proxy_auth
-  value: true
-# ingestor_aws_metrics
-- type: replace
-  path: /instance_groups/name=ingestor_aws_metrics/jobs/name=opensearch/properties?/opensearch?/enable_proxy_auth
-  value: true
-
-# ingestor_falco
-- type: replace
-  path: /instance_groups/name=ingestor_falco/jobs/name=opensearch/properties?/opensearch?/enable_proxy_auth
-  value: true
-
 # add variable for auth proxy certs
 - type: replace
   path: /variables/name=auth_proxy?

@@ -5,6 +5,6 @@
     targets:
     - query: '*'
       instance_group: opensearch_dashboards
-      deployment: logs-opensearch
+      deployment: logs-platform
       network: services
       domain: bosh

@@ -1,15 +1,15 @@
 - type: replace
   path: /instance_groups/name=opensearch_manager?/vm_type?
-  value: m6i.large
+  value: t3.large
 
 - type: replace
   path: /instance_groups/name=opensearch_manager?/instances?
-  value: 2
+  value: 1
 
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/instances?
-  value: 2
+  value: 3
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/vm_type?
@@ -41,7 +41,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards?/instances?
-  value: 2
+  value: 1
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards?/vm_type?
@@ -55,15 +55,6 @@
     serial: true
 
 
-
-- type: replace
-  path: /instance_groups/name=archiver?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=archiver?/vm_type?
-  value: m6i.large
-
 - type: replace
   path: /instance_groups/name=ingestor?/instances?
   value: 1
@@ -72,21 +63,6 @@
   path: /instance_groups/name=ingestor?/vm_type?
   value: m6i.large
 
-- type: replace
-  path: /instance_groups/name=ingestor_cloudwatch_logs?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=ingestor_aws_metrics?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=ingestor_s3?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=ingestor_falco?/instances?
-  value: 1
   
 
 - type: replace
@@ -149,7 +125,7 @@
 
 - type: replace
   path: /instance_groups/name=archiver?/jobs?/name=archiver_syslog?/properties?/logstash_ingestor?/outputs?/0/options/bucket?
-  value: ((logs-opensearch-cf-archiver-bucket))
+  value: ((logs-platform-cf-archiver-bucket))
 
 - type: replace
   path: /instance_groups/name=archiver?/jobs?/name=archiver_syslog?/properties?/logstash_ingestor?/outputs?/0/options/region?

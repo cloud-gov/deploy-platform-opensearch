@@ -123,11 +123,3 @@
             query: '*'
 
 
-- type: replace
-  path: /instance_groups/name=archiver?/jobs?/name=archiver_syslog?/properties?/logstash_ingestor?/outputs?/0/options/bucket?
-  value: ((logs-platform-cf-archiver-bucket))
-
-- type: replace
-  path: /instance_groups/name=archiver?/jobs?/name=archiver_syslog?/properties?/logstash_ingestor?/outputs?/0/options/region?
-  value: us-gov-west-1
-

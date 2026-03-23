@@ -224,7 +224,6 @@ instance_groups:
     properties:
       opensearch_config:
         alias: ((alias))
-        metric_alias: ((metric_alias))
         component_templates:
         - shards-and-replicas: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas.json
         - metric-shards-and-replica: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-metrics.json
@@ -353,7 +352,6 @@ instance_groups:
           - localhost
           index: ((alias))
           index_type: '%{@type}'
-          index_metrics: ((metric_alias))
           ssl:
             ca: ((opensearch_node.ca))
             certificate: ((logstash.certificate))

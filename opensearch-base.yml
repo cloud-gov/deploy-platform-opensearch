@@ -286,7 +286,7 @@ instance_groups:
         - {type: visualization, pattern: "/var/vcap/jobs/upload-dashboards-objects/dashboards-objects/visualization/App-*.json"}
         - {type: dashboard, pattern: "/var/vcap/jobs/upload-dashboards-objects/dashboards-objects/dashboard/App-*.json"}
       opensearch_dashboards:
-        host: opensearch_dashboards.opensearch.internal
+        host: opensearch_dashboards.platform-opensearch.internal
   stemcell: default
   azs: [z1,z2]
   vm_type: t3.large
@@ -413,6 +413,24 @@ instance_groups:
           tenants:
             enable_private: false
     release: opensearch
+  - name: oauth2-proxy
+    release: oauth2-proxy
+    properties:
+      address: http://127.0.0.1:5601
+      upstream: http://127.0.0.1:5602
+      provider: oidc
+      client_id: ((client_id))
+      client_secret: ((client_secret))
+      cookie_secret: ((cookie_secret))
+      oidc_issuer_url: ((oidc_issuer_url))
+      redirect_url: ((redirect_url))
+      email_domain: gsa.gov
+  - name: secureproxy
+    release: secureproxy
+    properties:
+      secureproxy:
+        listen_port: 5600
+        proxy_port: 5601
   vm_extensions:
   - 15GB_ephemeral_disk
   - logs-opensearch-profile

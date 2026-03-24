@@ -418,7 +418,7 @@ instance_groups:
   - name: oauth2-proxy
     release: oauth2-proxy
     properties:
-      address: http://127.0.0.1:5601
+      address: http://127.0.0.1:5605
       upstream: http://127.0.0.1:5602
       provider: oidc
       client_id: ((client_id))
@@ -432,7 +432,7 @@ instance_groups:
     properties:
       secureproxy:
         listen_port: 5600
-        proxy_port: 5601
+        proxy_port: 5605
   vm_extensions:
   - 15GB_ephemeral_disk
   - logs-opensearch-profile

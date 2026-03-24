@@ -404,6 +404,7 @@ instance_groups:
         config_options:
           server.maxPayloadBytes: 4194304
         console.enabled: false
+        port: 5605
         defaultAppId: dashboard/App-Overview
         env:
         - NODE_ENV: production

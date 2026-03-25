@@ -125,9 +125,9 @@
 
 # variables
 - type: replace
-  path: /variables/name=platform_opensearch_ca?
+  path: /variables/name=opensearch_ca?
   value:
-    name: platform_opensearch_ca
+    name: opensearch_ca
     type: certificate
     options:
       is_ca: true
@@ -143,7 +143,7 @@
     options:
       alternative_names:
       - localhost
-      ca: platform_opensearch_ca
+      ca: opensearch_ca
       common_name: logstash.opensearch.internal
       extended_key_usage:
       - server_auth
@@ -156,7 +156,7 @@
     type: certificate
     update_mode: converge
     options:
-      ca: platform_opensearch_ca
+      ca: opensearch_ca
       common_name: node.opensearch.internal
       alternative_names: ["localhost"]
       extended_key_usage:
@@ -170,7 +170,7 @@
     type: certificate
     update_mode: converge
     options:
-      ca: platform_opensearch_ca
+      ca: opensearch_ca
       common_name: dashboard.opensearch.internal
       alternative_names: ["localhost"]
       extended_key_usage:
@@ -184,7 +184,7 @@
     type: certificate
     update_mode: converge
     options:
-      ca: platform_opensearch_ca
+      ca: opensearch_ca
       common_name: smoketest.opensearch.internal
       alternative_names: ["localhost"]
       extended_key_usage:
@@ -197,7 +197,7 @@
     name: opensearch_admin
     type: certificate
     options:
-      ca: platform_opensearch_ca
+      ca: opensearch_ca
       common_name: admin.opensearch.internal
       extended_key_usage:
       - client_auth

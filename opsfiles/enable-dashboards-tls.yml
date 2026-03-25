@@ -14,7 +14,7 @@
     type: certificate
     update_mode: converge
     options:
-      ca: platform_opensearch_ca
+      ca: opensearch_ca
       common_name: opensearch_dashboard.web
       alternative_names:
       - localhost

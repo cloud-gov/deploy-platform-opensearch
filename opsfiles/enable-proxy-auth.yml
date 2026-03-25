@@ -43,7 +43,7 @@
       alternative_names:
         - localhost
         - auth-proxy.opensearch.internal
-      ca: opensearch_ca
+      ca: platform_opensearch_ca
       common_name: auth-proxy.opensearch.internal
       extended_key_usage:
         - server_auth

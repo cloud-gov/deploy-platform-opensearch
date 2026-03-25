@@ -2,7 +2,7 @@
 groups:
   - name: development
     jobs:
-      - build-opensearch-release
+      - build-opensearch-test-release
       - deploy-opensearch-development
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
           - get: release-git-repo
             resource: opensearch-test-release-git-repo
             trigger: true
-          - get: deploy-logs-opensearch-test-config
+          - get: deploy-logs-platform-config
           - get: final-builds-dir-tarball
             resource: opensearch-final-builds-dir-tarball
           - get: releases-dir-tarball
@@ -35,8 +35,8 @@ jobs:
                 bundle exec rspec
       - task: create-test-release
         input_mapping:
-          deploy-logs-opensearch-config: deploy-logs-opensearch-test-config
-        file: deploy-logs-opensearch-test-config/ci/create-bosh-test-release.yml
+          deploy-logs-opensearch-config: deploy-logs-platform-config
+        file: deploy-logs-platform-config/ci/create-bosh-test-release.yml
         tags: [iaas]
         params:
           AWS_DEFAULT_REGION: ((aws_default_region))
@@ -99,10 +99,11 @@ jobs:
         file: deploy-logs-platform-config/ci/terraform-secrets.yml
       - put: opensearch-development-deployment
         params:
+          skip_drain: true
           manifest: opensearch-manifest/manifest.yml
-          dry_run: true
+          # dry_run: true
           releases:
-            - opensearch-release/*.tgz
+            - opensearch-test-release/*.tgz
           stemcells:
             - opensearch-stemcell-jammy/*.tgz
           ops_files:
@@ -126,12 +127,13 @@ jobs:
     #       <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
 resources:
-  - name: opensearch-release-git-repo
+  - name: opensearch-test-release-git-repo
     type: git
     source:
       commit_verification_keys: ((cloud-gov-pgp-keys))
       uri: https://github.com/cloud-gov/opensearch-boshrelease
       branch: platform
+
   - name: opensearch-final-builds-dir-tarball
     type: s3-iam
     source: &bosh-releases-bucket-info
@@ -139,18 +141,21 @@ resources:
       region_name: ((aws-region))
       server_side_encryption: AES256
       versioned_file: final-builds-dir-opensearch.tgz
+
   - name: opensearch-releases-dir-tarball
     type: s3-iam
     source:
       <<: *bosh-releases-bucket-info
       versioned_file: releases-dir-opensearch.tgz
-  - name: opensearch-release
+
+  - name: opensearch-test-release
     type: s3-iam
     source:
       bucket: ((s3-bosh-releases-bucket))
       region_name: ((aws-region))
-      regexp: opensearch-([\d\.]*).tgz
+      regexp: opensearch-test-([\d\.]*).tgz
       server_side_encryption: AES256
+
   - name: terraform-yaml-development
     type: s3-iam
     source:

@@ -1,7 +1,7 @@
 - type: replace
   path: /addons/name=bosh-dns-aliases/jobs/name=bosh-dns-aliases/properties?/aliases?/-
   value:
-    domain: opensearch_dashboards.platform-opensearch.internal
+    domain: opensearch_dashboards.opensearch.internal
     targets:
     - query: '*'
       instance_group: opensearch_dashboards

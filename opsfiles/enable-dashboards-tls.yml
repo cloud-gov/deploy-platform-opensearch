@@ -18,7 +18,7 @@
       common_name: opensearch_dashboard.web
       alternative_names:
       - localhost
-      - opensearch_dashboards.platform-opensearch.internal
+      - opensearch_dashboards.opensearch.internal
       extended_key_usage:
       - server_auth
       - client_auth

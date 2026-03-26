@@ -434,6 +434,18 @@ instance_groups:
       secureproxy:
         listen_port: 5605
         proxy_port: 5606
+  - name: route_registrar
+    release: route-registrar
+    consumes:
+      nats-tls:
+        from: nats-tls
+    properties:
+      route_registrar:
+        routes:
+        - name: platform-auth-proxy
+          port: 5605
+          uri: logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov
+    release: routing
   vm_extensions:
   - 15GB_ephemeral_disk
   - logs-opensearch-profile

@@ -99,7 +99,6 @@ jobs:
         file: deploy-logs-platform-config/ci/terraform-secrets.yml
       - put: opensearch-development-deployment
         params:
-          skip_drain: true
           manifest: opensearch-manifest/manifest.yml
           # dry_run: true
           releases:
@@ -111,7 +110,7 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
             - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
             # - deploy-logs-platform-config/opsfiles/enable-proxy-auth.yml
-            # - deploy-logs-platform-config/opsfiles/enable-auth-proxy-route-dev.yml
+            - deploy-logs-platform-config/opsfiles/enable-auth-proxy-route-dev.yml
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
             - deploy-logs-platform-config/opsfiles/cf-development.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml

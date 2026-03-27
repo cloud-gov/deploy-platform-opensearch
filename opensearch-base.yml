@@ -444,7 +444,9 @@ instance_groups:
         routes:
         - name: platform-auth-proxy
           port: 5605
-          uri: logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov
+          registration_interval: 2s
+          uris: 
+          - logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov
     release: routing
   vm_extensions:
   - 15GB_ephemeral_disk

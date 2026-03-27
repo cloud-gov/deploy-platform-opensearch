@@ -5,7 +5,7 @@
     enabled: true
     certificate: ((platform_dashboard_web.certificate))
     private_key: ((platform_dashboard_web.private_key))
-
+    
 # variables
 - type: replace
   path: /variables/name=platform_dashboard_web?

@@ -444,7 +444,6 @@ instance_groups:
         routes:
         - name: platform-auth-proxy
           port: 5605
-          tls_port: 8000
           uri: logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov
     release: routing
   vm_extensions:

@@ -404,6 +404,9 @@ instance_groups:
         config_options:
           server.maxPayloadBytes: 4194304
         console.enabled: false
+        server:
+          ssl:
+            enabled: false
         port: 5607
         defaultAppId: dashboard/App-Overview
         env:

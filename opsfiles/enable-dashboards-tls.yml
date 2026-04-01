@@ -2,7 +2,7 @@
 - type: replace
   path: /instance_groups/name=opensearch_dashboards/jobs/name=opensearch_dashboards/properties?/opensearch_dashboards?/server?/ssl?
   value:
-    enabled: false
+    enabled: true
     certificate: ((platform_dashboard_web.certificate))
     private_key: ((platform_dashboard_web.private_key))
     

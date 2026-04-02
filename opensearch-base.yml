@@ -483,7 +483,7 @@ instance_groups:
     release: routing
   vm_extensions:
   - 15GB_ephemeral_disk
-  - logs-opensearch-profilev
+  - logs-opensearch-profile
   - platform-opensearch-lb
   stemcell: default
   azs: [z1]

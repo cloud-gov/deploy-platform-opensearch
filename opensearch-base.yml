@@ -97,9 +97,10 @@ instance_groups:
       opensearch:
         oidc:
           enabled: true
-          hostname: ((oidc_host))
           client_id: ((oidc_client))
           client_secret: ((oidc_secret))
+          oidc_issuer_url: ((oidc_issuer_url))
+          redirect_url: ((redirect_url))
         node:
           attributes:
             box_type: hot
@@ -156,9 +157,10 @@ instance_groups:
       opensearch:
         oidc:
           enabled: true
-          hostname: ((oidc_host))
           client_id: ((oidc_client))
           client_secret: ((oidc_secret))
+          oidc_issuer_url: ((oidc_issuer_url))
+          redirect_url: ((redirect_url))
         clustername: opensearch
         limits:
           fd: 131072 # 2 ** 17
@@ -420,9 +422,10 @@ instance_groups:
       opensearch:
         oidc:
           enabled: true
-          hostname: ((oidc_host))
           client_id: ((oidc_client))
           client_secret: ((oidc_secret))
+          oidc_issuer_url: ((oidc_issuer_url))
+          redirect_url: ((redirect_url))
         heap_size: 1G
         http_host: 127.0.0.1
         jvm_options:
@@ -437,7 +440,7 @@ instance_groups:
         server:
           ssl:
             enabled: false
-        port: 5607
+        port: 5605
         defaultAppId: dashboard/App-Overview
         env:
         - NODE_ENV: production
@@ -449,24 +452,6 @@ instance_groups:
           tenants:
             enable_private: false
     release: opensearch
-  - name: secureproxy
-    release: secureproxy
-    properties:
-      secureproxy:
-        listen_port: 5605
-        proxy_port: 5606
-  - name: oauth2-proxy
-    release: oauth2-proxy
-    properties:
-      address: http://127.0.0.1:5606
-      upstream: http://127.0.0.1:5607
-      provider: oidc
-      client_id: ((client_id))
-      client_secret: ((client_secret))
-      cookie_secret: ((cookie_secret))
-      oidc_issuer_url: ((oidc_issuer_url))
-      redirect_url: ((redirect_url))
-      email_domain: gsa.gov
   - name: route_registrar
     release: route-registrar
     consumes:

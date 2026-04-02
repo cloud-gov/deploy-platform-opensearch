@@ -64,8 +64,8 @@ instance_groups:
         oidc:
           enabled: true
           hostname: ((oidc_host))
-          client_id: ((oidc_client))
-          client_secret: ((oidc_secret))
+          client_id: ((client_id))
+          client_secret: ((client_secret))
         jvm_options:
           - "-Dlog4j2.formatMsgNoLookups=true"
         cf:
@@ -97,8 +97,8 @@ instance_groups:
       opensearch:
         oidc:
           enabled: true
-          client_id: ((oidc_client))
-          client_secret: ((oidc_secret))
+          client_id: ((client_id))
+          client_secret: ((client_secret))
           oidc_issuer_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
         node:
@@ -157,8 +157,8 @@ instance_groups:
       opensearch:
         oidc:
           enabled: true
-          client_id: ((oidc_client))
-          client_secret: ((oidc_secret))
+          client_id: ((client_id))
+          client_secret: ((client_secret))
           oidc_issuer_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
         clustername: opensearch
@@ -206,8 +206,8 @@ instance_groups:
         oidc:
           enabled: true
           hostname: ((oidc_host))
-          client_id: ((oidc_client))
-          client_secret: ((oidc_secret))
+          client_id: ((client_id))
+          client_secret: ((client_secret))
         clustername: opensearch
         limits:
           fd: 131072 # 2 ** 17
@@ -340,8 +340,8 @@ instance_groups:
         oidc:
           enabled: true
           hostname: ((oidc_host))
-          client_id: ((oidc_client))
-          client_secret: ((oidc_secret))
+          client_id: ((client_id))
+          client_secret: ((client_secret))
   - name: ingestor_syslog
     consumes: *consumes-opensearch-manager
     properties:
@@ -422,8 +422,8 @@ instance_groups:
       opensearch:
         oidc:
           enabled: true
-          client_id: ((oidc_client))
-          client_secret: ((oidc_secret))
+          client_id: ((client_id))
+          client_secret: ((client_secret))
           oidc_issuer_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
         heap_size: 1G

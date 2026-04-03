@@ -99,7 +99,7 @@ instance_groups:
           enabled: true
           client_id: ((client_id))
           client_secret: ((client_secret))
-          oidc_issuer_url: ((oidc_issuer_url))
+          oidc_issuer_url: ((openid_connect_url))
           redirect_url: ((redirect_url))
         node:
           attributes:
@@ -159,7 +159,7 @@ instance_groups:
           enabled: true
           client_id: ((client_id))
           client_secret: ((client_secret))
-          oidc_issuer_url: ((oidc_issuer_url))
+          oidc_issuer_url: ((openid_connect_url))
           redirect_url: ((redirect_url))
         clustername: opensearch
         limits:
@@ -424,7 +424,7 @@ instance_groups:
           enabled: true
           client_id: ((client_id))
           client_secret: ((client_secret))
-          oidc_issuer_url: ((oidc_issuer_url))
+          oidc_issuer_url: ((openid_connect_url))
           redirect_url: ((redirect_url))
         heap_size: 1G
         http_host: 127.0.0.1

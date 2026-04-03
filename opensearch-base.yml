@@ -435,6 +435,8 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch_dashboards:
+        oidc:
+          redirect: "logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov"
         config_options:
           server.maxPayloadBytes: 4194304
         console.enabled: false

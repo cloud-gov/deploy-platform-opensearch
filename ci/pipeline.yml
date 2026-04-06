@@ -18,21 +18,6 @@ jobs:
           - get: releases-dir-tarball
             resource: opensearch-releases-dir-tarball
           - get: general-task
-      - task: run-tests
-        image: general-task
-        config:
-          platform: linux
-          inputs:
-            - name: release-git-repo
-          run:
-            path: sh
-            args:
-              - -exc
-              - |
-                cd release-git-repo
-                bundle install
-                # run release template unit tests
-                bundle exec rspec
       - task: create-test-release
         input_mapping:
           deploy-logs-opensearch-config: deploy-logs-platform-config

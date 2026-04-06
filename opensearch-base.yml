@@ -466,8 +466,6 @@ instance_groups:
       cookie_secret: ((cookie_secret))
       oidc_issuer_url: ((oidc_issuer_url))
       email_domain: gsa.gov
-      browser_xss_filter: True
-      content_type_nosniff: True
   - name: secureproxy
     properties:
       secureproxy:

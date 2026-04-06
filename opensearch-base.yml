@@ -459,7 +459,7 @@ instance_groups:
     release: oauth2-proxy
     properties:
       address: http://127.0.0.1:5606
-      upstream: http://127.0.0.1:5607
+      upstream: https://127.0.0.1:5607
       provider: oidc
       client_id: ((client_id))
       client_secret: ((client_secret))

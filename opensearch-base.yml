@@ -463,7 +463,7 @@ instance_groups:
       provider: oidc
       client_id: ((client_id))
       client_secret: ((client_secret))
-      # cookie_secret: ((oauth-proxy-cookie-secret))
+      cookie_secret: ((cookie-secret))
       oidc_issuer_url: ((oidc_issuer_url))
       email_domain: gsa.gov
       browser_xss_filter: True

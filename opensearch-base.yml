@@ -449,6 +449,7 @@ instance_groups:
         - NODE_ENV: production
         health:
           timeout: 600
+          disable_post_start: true
         index: ((dashboard_index))
         memory_limit: 75
         multitenancy:

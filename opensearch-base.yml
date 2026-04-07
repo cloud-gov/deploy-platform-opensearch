@@ -458,7 +458,7 @@ instance_groups:
   - name: oauth2-proxy
     release: oauth2-proxy
     properties:
-      address: http://127.0.0.1:5605
+      address: 0.0.0.0:5605
       upstream: http://127.0.0.1:5607
       provider: oidc
       client_id: ((client_id))

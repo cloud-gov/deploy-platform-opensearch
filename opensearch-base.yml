@@ -475,9 +475,9 @@ instance_groups:
     properties:
       route_registrar:
         routes:
-        - name: platform-auth-proxy
+        - name: platform-uri
           port: 5605
-          registration_interval: 2s
+          registration_interval: 10s
           uris: 
           - logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov
     release: routing

@@ -443,7 +443,7 @@ instance_groups:
         server:
           ssl:
             enabled: false
-        port: 5607
+        port: 5605
         defaultAppId: dashboard/App-Overview
         env:
         - NODE_ENV: production
@@ -456,18 +456,18 @@ instance_groups:
           tenants:
             enable_private: false
     release: opensearch
-  - name: oauth2-proxy
-    release: oauth2-proxy
-    properties:
-      address: 0.0.0.0:5605
-      upstream: http://127.0.0.1:5607
-      provider: oidc
-      client_id: ((client_id))
-      client_secret: ((client_secret))
-      cookie_secret: ((cookie_secret))
-      oidc_issuer_url: ((oauth2_oidc_issuer_url))
-      redirect_url: ((redirect_url))
-      email_domain: gsa.gov
+  # - name: oauth2-proxy
+  #   release: oauth2-proxy
+  #   properties:
+  #     address: 0.0.0.0:5605
+  #     upstream: http://127.0.0.1:5607
+  #     provider: oidc
+  #     client_id: ((client_id))
+  #     client_secret: ((client_secret))
+  #     cookie_secret: ((cookie_secret))
+  #     oidc_issuer_url: ((oauth2_oidc_issuer_url))
+  #     redirect_url: ((redirect_url))
+  #     email_domain: gsa.gov
   - name: route_registrar
     release: route-registrar
     consumes:

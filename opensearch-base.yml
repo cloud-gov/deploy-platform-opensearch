@@ -465,7 +465,7 @@ instance_groups:
       client_id: ((client_id))
       client_secret: ((client_secret))
       cookie_secret: ((cookie_secret))
-      oidc_issuer_url: ((oidc_issuer_url))
+      oidc_issuer_url: ((oauth2_oidc_issuer_url))
       redirect_url: ((redirect_url))
       email_domain: gsa.gov
   - name: route_registrar

@@ -453,8 +453,7 @@ instance_groups:
         index: ((dashboard_index))
         memory_limit: 75
         multitenancy:
-          tenants:
-            enabled: false
+          enabled: false
     release: opensearch
   - name: route_registrar
     release: route-registrar

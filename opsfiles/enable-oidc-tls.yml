@@ -1,0 +1,6 @@
+- type: replace
+  path: /instance_groups/name=opensearch_dashboards/jobs/name=opensearch_dashboards/properties/opensearch_dashboards/oidc?/ssl?
+  value: 
+    ca: ((lets_encrypt_ca.certificate))
+    certificate: ((opsuaa_uaa_ssl.certificate))
+    private_key: ((opsuaa_uaa_ssl.private_key))

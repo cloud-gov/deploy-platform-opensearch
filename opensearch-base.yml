@@ -422,7 +422,6 @@ instance_groups:
     properties:
       opensearch:
         oidc:
-          enabled: true
           client_id: ((client_id))
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
@@ -436,6 +435,7 @@ instance_groups:
     properties:
       opensearch_dashboards:
         oidc:
+          enabled: true
           redirect: "logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov"
         config_options:
           server.maxPayloadBytes: 4194304

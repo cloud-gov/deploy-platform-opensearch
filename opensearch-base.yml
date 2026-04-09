@@ -455,20 +455,6 @@ instance_groups:
         multitenancy:
           enabled: false
     release: opensearch
-  - name: route_registrar
-    release: route-registrar
-    consumes:
-      nats-tls:
-        from: nats-tls
-    properties:
-      route_registrar:
-        routes:
-        - name: platform-uri
-          port: 5605
-          registration_interval: 10s
-          uris: 
-          - logs-platform-test.dev.us-gov-west-1.aws-us-gov.cloud.gov
-    release: routing
   vm_extensions:
   - 15GB_ephemeral_disk
   - logs-opensearch-profile

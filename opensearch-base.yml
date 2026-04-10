@@ -340,9 +340,10 @@ instance_groups:
         - -Dlog4j2.formatMsgNoLookups=true
         oidc:
           enabled: true
-          hostname: ((oidc_host))
           client_id: ((client_id))
           client_secret: ((client_secret))
+          openid_connect_url: ((oidc_issuer_url))
+          redirect_url: ((redirect_url))
   - name: ingestor_syslog
     consumes: *consumes-opensearch-manager
     properties:

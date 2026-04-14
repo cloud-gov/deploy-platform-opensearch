@@ -398,7 +398,7 @@ instance_groups:
         - /var/vcap/jobs/deployment_lookup_config/config/deployment_lookup.yml
       logstash_ingestor:
         syslog:
-          port: 5514
+          port: 5431
     provides:
       ingestor:
         as: ingestor_link

@@ -363,7 +363,7 @@ instance_groups:
             certificate: ((logstash.certificate))
             private_key: ((logstash.private_key))
         filters:
-          - logs-for-cf: /var/vcap/packages/cf-logstash-filters/logstash-filters-default.conf
+          - logs-for-cf: /var/vcap/packages/cf-logstash-filters/logstash-platform-default.conf
           - content: |
                   if [@source][component] == "snort" {
                     grok {

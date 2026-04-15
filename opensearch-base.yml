@@ -353,6 +353,7 @@ instance_groups:
         queue:
           max_bytes: 30gb
       logstash_parser:
+        debug: true
         opensearch:
           data_hosts:
           - localhost

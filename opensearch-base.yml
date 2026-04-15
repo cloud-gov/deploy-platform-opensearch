@@ -397,6 +397,7 @@ instance_groups:
         - /var/vcap/packages/base-logstash-filters/deployment_lookup.yml
         - /var/vcap/jobs/deployment_lookup_config/config/deployment_lookup.yml
       logstash_ingestor:
+        type: platform
         syslog:
           port: 5431
     provides:

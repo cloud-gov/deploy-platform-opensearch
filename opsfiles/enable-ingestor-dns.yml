@@ -1,0 +1,10 @@
+- type: replace
+  path: /addons/name=bosh-dns-aliases/jobs/name=bosh-dns-aliases/properties?/aliases?/-
+  value:
+    domain: ingestor.platform_opensearch.internal
+    targets:
+    - query: '*'
+      instance_group: ingestor
+      deployment: logs-platform
+      network: services
+      domain: bosh

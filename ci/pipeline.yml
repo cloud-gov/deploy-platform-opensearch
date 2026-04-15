@@ -95,6 +95,7 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
             - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-ingestor-dns.yml
             # - deploy-logs-platform-config/opsfiles/enable-proxy-auth.yml
             # - deploy-logs-platform-config/opsfiles/enable-auth-proxy-route-dev.yml
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml

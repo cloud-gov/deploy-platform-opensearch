@@ -364,21 +364,6 @@ instance_groups:
             private_key: ((logstash.private_key))
         filters:
           - logs-for-cf: /var/vcap/packages/cf-logstash-filters/logstash-platform-default.conf
-          - content: |
-                  if [@source][component] == "snort" {
-                    grok {
-                      match => {
-                        "@message" => "\[%{INT:gid}:%{INT:sid}:%{INT:rev}\]\s%{DATA:msg}\s\{%{DATA:proto}\}\s%{IP:src_ip}:%{INT:src_port}\s->\s%{IP:dst_ip}:%{INT:dst_port}"
-                      }
-                    }
-                  }
-                  if [@source][component] == "clamd" {
-                    grok {
-                      match => {
-                        "@message" => "%{WORD:event_type}:\s%{DATA:file_path}:\s%{DATA:signature_name}\sFOUND"
-                      }
-                    }
-                  }
         outputs:
         # - plugin: s3
         #   options:

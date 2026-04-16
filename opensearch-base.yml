@@ -47,6 +47,8 @@ instance_groups:
         ip_addresses: true
     properties:
       opensearch:
+        deployment_type:
+        - platform
         node:
           attributes:
             box_type: warm
@@ -96,6 +98,8 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
+        deployment_type:
+        - platform
         oidc:
           enabled: true
           client_id: ((client_id))
@@ -156,6 +160,8 @@ instance_groups:
         as: opensearch_manager
     properties:
       opensearch:
+        deployment_type:
+        - platform
         oidc:
           enabled: true
           client_id: ((client_id))
@@ -204,6 +210,8 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
+        deployment_type:
+        - platform
         oidc:
           enabled: true
           hostname: ((oidc_host))
@@ -248,11 +256,9 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch_config:
-        alias: ((alias))
-        metric_alias: ((metric_alias))
+        platform_alias: ((platform_alias))
         component_templates:
-        - shards-and-replicas: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas.json
-        - metric-shards-and-replica: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-metrics.json
+        - platform-shards-and-replica: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-platform.json
         - index-settings: /var/vcap/jobs/upload_opensearch_config/index-templates/index-settings.json
         - index-mappings: /var/vcap/jobs/upload_opensearch_config/index-templates/index-mappings.json
         - component-index-mappings-base: /var/vcap/jobs/opensearch_templates/component-index-mappings-base.json
@@ -262,13 +268,6 @@ instance_groups:
         - index-template: /var/vcap/jobs/opensearch_templates/index-template.json
         - index-template-app-cf: /var/vcap/jobs/opensearch_templates/index-template-app.json
         - index-template-metrics: /var/vcap/jobs/opensearch_templates/index-template-metrics.json
-    release: opensearch
-  - name: upload_tenant
-    consumes: *consumes-opensearch-manager
-    properties:
-      upload_tenant:
-        cf:
-          client_id: opensearch_client_id
     release: opensearch
   - name: opensearch_templates
     properties:
@@ -285,8 +284,7 @@ instance_groups:
         index_settings_component_name: index-settings
         platform_index_component_name: index-mappings-platform
         metric_index_component_name: component-index-mappings-metrics
-        shards_and_replicas_component_name: shards-and-replicas
-        metrics_shards_and_replicas_component_name: metric-shards-and-replica
+        platform_shards_and_replicas_component_name: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-platform.json
     release: opensearch
   - name: upload-dashboards-objects
     release: opensearch
@@ -334,6 +332,8 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
+        deployment_type:
+        - platform
         heap_size: 1G
         http_host: 127.0.0.1
         jvm_options:
@@ -419,6 +419,8 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
+        deployment_type:
+        - platform
         oidc:
           client_id: ((client_id))
           client_secret: ((client_secret))

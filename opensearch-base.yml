@@ -385,6 +385,10 @@ instance_groups:
         type: platform
         syslog:
           port: 5431
+        syslog_tls:
+          port: 6972
+          ssl_cert: ((ingestor_syslog_server_tls.certificate))
+          ssl_key: ((ingestor_syslog_server_tls.private_key))
     provides:
       ingestor:
         as: ingestor_link

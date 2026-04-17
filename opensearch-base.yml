@@ -213,10 +213,10 @@ instance_groups:
         deployment_type:
         - platform
         oidc:
-          enabled: true
-          hostname: ((oidc_host))
           client_id: ((client_id))
           client_secret: ((client_secret))
+          openid_connect_url: ((oidc_issuer_url))
+          redirect_url: ((redirect_url))
         clustername: opensearch
         limits:
           fd: 131072 # 2 ** 17

@@ -69,6 +69,7 @@ instance_groups:
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
+          token_url: ((token_url))
         jvm_options:
           - "-Dlog4j2.formatMsgNoLookups=true"
         cf:
@@ -106,6 +107,7 @@ instance_groups:
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
+          token_url: ((token_url))
         node:
           attributes:
             box_type: hot
@@ -168,6 +170,7 @@ instance_groups:
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
+          token_url: ((token_url))
         clustername: opensearch
         limits:
           fd: 131072 # 2 ** 17
@@ -217,6 +220,7 @@ instance_groups:
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
+          token_url: ((token_url))
         clustername: opensearch
         limits:
           fd: 131072 # 2 ** 17
@@ -344,6 +348,7 @@ instance_groups:
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
+          token_url: ((token_url))
   - name: ingestor_syslog
     consumes: *consumes-opensearch-manager
     properties:
@@ -430,6 +435,7 @@ instance_groups:
           client_secret: ((client_secret))
           openid_connect_url: ((oidc_issuer_url))
           redirect_url: ((redirect_url))
+          token_url: ((token_url))
         heap_size: 1G
         http_host: 127.0.0.1
         jvm_options:

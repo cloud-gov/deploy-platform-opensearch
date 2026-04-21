@@ -235,14 +235,16 @@ instance_groups:
     name: smoke_tests
     properties:
       smoke_tests:
+        app_log:
+          enabled: false
         count_test:
-          index_pattern: logs-app-*
+          index_pattern: logs-platform-*
           minimum: 10
           long_time_interval: 10m
           run: true
           time_field: '@timestamp'
           time_interval: 5m
-        index: logs-app
+        index: logs-platform
         opensearch:
           ssl:
             ca: ((opensearch_node.ca))

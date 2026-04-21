@@ -250,6 +250,8 @@ instance_groups:
             ca: ((opensearch_node.ca))
             certificate: ((smoketest.certificate))
             private_key: ((smoketest.private_key))
+        platform_log:
+          enabled: true
         s3:
           environment: development
           region: ((region))

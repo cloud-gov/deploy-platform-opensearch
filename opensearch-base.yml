@@ -274,6 +274,7 @@ instance_groups:
         - index-templat-platform: /var/vcap/jobs/opensearch_templates/index-template-platform.json
     release: opensearch
   - name: opensearch_templates
+    consumes: *consumes-opensearch-manager
     properties:
       opensearch_config:
         platform_index_settings:

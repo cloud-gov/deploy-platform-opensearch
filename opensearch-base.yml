@@ -283,7 +283,7 @@ instance_groups:
         index_mappings_component_name: index-mappings
         index_settings_component_name: index-settings
         platform_index_component_name: component-index-mappings-platform
-        platform_shards_and_replicas_component_name: shards-and-replicas-platform
+        platform_shards_and_replicas_component_name: platform-shards-and-replicas
     release: opensearch
   - name: upload-dashboards-objects
     release: opensearch

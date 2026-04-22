@@ -271,7 +271,7 @@ instance_groups:
         - index-mappings: /var/vcap/jobs/upload_opensearch_config/index-templates/index-mappings.json
         - component-index-mappings-platform: /var/vcap/jobs/opensearch_templates/component-index-mappings-platform.json
         index_templates:
-        - index-templat-platform: /var/vcap/jobs/opensearch_templates/index-template-platform.json
+        - index-template-platform: /var/vcap/jobs/opensearch_templates/index-template-platform.json
     release: opensearch
   - name: opensearch_templates
     consumes: *consumes-opensearch-manager

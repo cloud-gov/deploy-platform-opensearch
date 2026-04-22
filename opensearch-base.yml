@@ -77,7 +77,7 @@ instance_groups:
   persistent_disk_type: logs_opensearch_os_old_data
   stemcell: default
   azs: [z1,z2]
-  vm_type: t3.large\
+  vm_type: t3.large
   vm_extensions:
   - logs-opensearch-profile
   networks:
@@ -283,7 +283,7 @@ instance_groups:
         index_mappings_component_name: index-mappings
         index_settings_component_name: index-settings
         platform_index_component_name: component-index-mappings-platform
-        platform_shards_and_replicas_component_name: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-platform.json
+        platform_shards_and_replicas_component_name: shards-and-replicas-platform
     release: opensearch
   - name: upload-dashboards-objects
     release: opensearch

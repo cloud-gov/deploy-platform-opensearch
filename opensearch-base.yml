@@ -449,7 +449,7 @@ instance_groups:
           ssl:
             enabled: false
         port: 5605
-        defaultAppId: dashboard/App-Overview
+        defaultAppId: dashboard/platform-overview-dashboard
         env:
         - NODE_ENV: production
         health:

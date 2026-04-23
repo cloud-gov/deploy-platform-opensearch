@@ -269,8 +269,10 @@ instance_groups:
         - platform-shards-and-replica: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-platform.json
         - index-settings: /var/vcap/jobs/upload_opensearch_config/index-templates/index-settings.json
         - index-mappings: /var/vcap/jobs/upload_opensearch_config/index-templates/index-mappings.json
+        - component-index-mappings-base: /var/vcap/jobs/opensearch_templates/component-index-mappings-base.json
         - component-index-mappings-platform: /var/vcap/jobs/opensearch_templates/component-index-mappings-platform.json
         index_templates:
+        - index-template: /var/vcap/jobs/opensearch_templates/index-template.json
         - index-template-platform: /var/vcap/jobs/opensearch_templates/index-template-platform.json
     release: opensearch
   - name: opensearch_templates
@@ -398,6 +400,7 @@ instance_groups:
     release: opensearch
   vm_type: t3.medium
   vm_extensions:
+  
   - platform-syslog-lb
   - 20GB_ephemeral_disk
   persistent_disk_type: logs_opensearch_ingestor

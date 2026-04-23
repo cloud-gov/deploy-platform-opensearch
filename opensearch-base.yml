@@ -282,6 +282,7 @@ instance_groups:
         platform_index_settings:
           index.mapping.total_fields.limit: 100
           index.queries.cache.enabled: "false"
+        base_index_component_name: component-index-mappings-base
         index_mappings_component_name: index-mappings
         index_settings_component_name: index-settings
         platform_index_component_name: component-index-mappings-platform

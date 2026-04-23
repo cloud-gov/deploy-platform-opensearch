@@ -366,17 +366,17 @@ instance_groups:
         filters:
           - logs-for-cf: /var/vcap/packages/cf-logstash-filters/logstash-platform-default.conf
         outputs:
-        # - plugin: s3
-        #   options:
-        #     region: ((region))
-        #     bucket: ((bucket))
-        #     server_side_encryption: true
-        #     prefix: "%{+yyyy/MM/dd/HH/mm}"
-        #     encoding: "gzip"
-        #     temporary_directory: /var/vcap/data/ingestor_syslog/s3_temp
-        #     # note that this is different than in the archivers
-        #     # here, we're uploading the parsed message as json, not the raw log line
-        #     codec: json
+        - plugin: s3
+          options:
+            region: ((region))
+            bucket: ((bucket))
+            server_side_encryption: true
+            prefix: "%{+yyyy/MM/dd/HH/mm}"
+            encoding: "gzip"
+            temporary_directory: /var/vcap/data/ingestor_syslog/s3_temp
+            # note that this is different than in the archivers
+            # here, we're uploading the parsed message as json, not the raw log line
+            codec: json
         - plugin: opensearch
           options: {}
         deployment_dictionary:

@@ -4,6 +4,8 @@ groups:
     jobs:
       - build-opensearch-test-release
       - deploy-opensearch-development
+      - upload-dashboards-objects-development
+      - smoke-tests-development
 
 jobs:
   - name: build-opensearch-test-release
@@ -48,6 +50,7 @@ jobs:
     #     channel: ((slack-channel-customer-success))
     #     username: ((slack-username))
     #     icon_url: ((slack-icon-url))
+    
   - name: deploy-opensearch-development
     serial_groups: [bosh-development]
     plan:
@@ -84,9 +87,7 @@ jobs:
         file: deploy-logs-platform-config/ci/terraform-secrets.yml
       - put: opensearch-development-deployment
         params:
-          dry_run: true
           manifest: opensearch-manifest/manifest.yml
-          # dry_run: true
           releases:
             - opensearch-test-release/*.tgz
           stemcells:
@@ -96,9 +97,6 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
             - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
-            - deploy-logs-platform-config/opsfiles/enable-ingestor-dns.yml
-            # - deploy-logs-platform-config/opsfiles/enable-proxy-auth.yml
-            # - deploy-logs-platform-config/opsfiles/enable-auth-proxy-route-dev.yml
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
             - deploy-logs-platform-config/opsfiles/cf-development.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
@@ -112,6 +110,105 @@ jobs:
     #     text: |
     #       :x: FAILED to deploy logs-platform in development
     #       <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+  
+  - name: upload-dashboards-objects-development
+    serial_groups: [bosh-development]
+    plan:
+      - in_parallel:
+          - get: pipeline-tasks
+          - get: opensearch-test-release
+          - get: opensearch-stemcell-jammy
+          - get: deploy-logs-platform-config
+          - get: opensearch-development-deployment
+            trigger: true
+      - task: upload-dashboards-objects
+        file: pipeline-tasks/bosh-logs-errand.yml
+        params:
+          BOSH_ENVIRONMENT: ((bosh_development_environment))
+          BOSH_CLIENT: ((bosh_client))
+          BOSH_CLIENT_SECRET: ((bosh_development_client_secret))
+          BOSH_DEPLOYMENT: logs-platform
+          BOSH_ERRAND: upload-dashboards-objects
+          BOSH_FLAGS: "--keep-alive"
+          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+
+  - name: smoke-tests-development
+    serial_groups: [bosh-development]
+    plan:
+      - in_parallel:
+          - get: tests-timer
+          - get: pipeline-tasks
+          - get: opensearch-test-release
+          - get: opensearch-stemcell-jammy
+          - get: deploy-logs-platform-config
+          - get: opensearch-development-deployment
+            trigger: true
+      - task: smoke-tests
+        file: pipeline-tasks/bosh-logs-errand.yml
+        params:
+          BOSH_ENVIRONMENT: ((bosh_development_environment))
+          BOSH_CLIENT: ((bosh_client))
+          BOSH_CLIENT_SECRET: ((bosh_development_client_secret))
+          BOSH_DEPLOYMENT: logs-platform
+          BOSH_ERRAND: smoke_tests
+          BOSH_FLAGS: "--keep-alive"
+          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+
+  - name: deploy-opensearch-staging
+    serial_groups: [bosh-staging]
+    plan:
+      - in_parallel:
+          - get: pipeline-tasks
+          - get: deploy-logs-platform-config
+            passed: [smoke-tests-development]
+            trigger: true
+          - get: opensearch-test-release
+            passed: [smoke-tests-development]
+            trigger: true
+          - get: opensearch-stemcell-jammy
+            passed: [smoke-tests-development]
+            trigger: true
+          - get: general-task
+          - get: terraform-yaml
+            resource: terraform-yaml-staging
+            trigger: true
+      - task: opensearch-manifest
+        image: general-task
+        config:
+          platform: linux
+          inputs:
+            - name: deploy-logs-platform-config
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                bosh int deploy-logs-platform-config/opensearch-base.yml \
+                -o deploy-logs-platform-config/opensearch-scaling-staging.yml \
+                > opensearch-manifest/manifest.yml
+          outputs:
+            - name: opensearch-manifest
+      - task: terraform-secrets
+        image: general-task
+        file: deploy-logs-platform-config/ci/terraform-secrets.yml
+      - put: opensearch-staging-deployment
+        params:
+          manifest: opensearch-manifest/manifest.yml
+          releases:
+            - opensearch-test-release/*.tgz
+          stemcells:
+            - opensearch-stemcell-jammy/*.tgz
+          ops_files:
+            - deploy-logs-platform-config/opsfiles/enable-node-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
+            - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-syslog.yml
+            - deploy-logs-platform-config/opsfiles/cf-staging.yml
+            - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
+            - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
+          vars_files:
+            - terraform-secrets/terraform.yml
 
 resources:
   - name: opensearch-test-release-git-repo
@@ -149,16 +246,24 @@ resources:
       bucket: ((tf-state-bucket-development))
       versioned_file: ((tf-state-file-development))
       region_name: ((aws-region))
+
+  - name: tests-timer
+    type: time
+    source:
+      interval: 30m
+
   - name: deploy-logs-platform-config
     type: git
     source:
       commit_verification_keys: ((cloud-gov-pgp-keys))
       uri: https://github.com/cloud-gov/deploy-platform-opensearch.git
       branch: platform
+
   - name: opensearch-stemcell-jammy
     source:
       name: bosh-aws-xen-hvm-ubuntu-jammy-go_agent
     type: bosh-io-stemcell
+
   - name: pipeline-tasks
     type: git
     source:
@@ -195,6 +300,7 @@ resource_types:
       repository: registry-image-resource
       aws_region: us-gov-west-1
       tag: latest
+
   # - name: slack-notification
   #   type: registry-image
   #   source:
@@ -203,6 +309,7 @@ resource_types:
   #     repository: slack-notification-resource
   #     aws_region: us-gov-west-1
   #     tag: latest
+
   - name: bosh-deployment
     type: registry-image
     source:

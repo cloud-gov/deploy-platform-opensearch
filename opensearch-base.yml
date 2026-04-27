@@ -237,13 +237,6 @@ instance_groups:
       smoke_tests:
         app_log:
           enabled: false
-        count_test:
-          index_pattern: logs-platform-*
-          minimum: 10
-          long_time_interval: 10m
-          run: true
-          time_field: '@timestamp'
-          time_interval: 5m
         index: logs-platform
         opensearch:
           ssl:
@@ -295,15 +288,6 @@ instance_groups:
         from: opensearch_manager
         ip_addresses: true
     properties:
-      cloudfoundry:
-        event_types:
-        - HttpStartStop
-        - LogMessage
-        - ContainerMetric
-        - Audit
-        - Metrics
-        - Falco
-        client_id: opensearch_client_id
       dashboards_objects:
         default_index: logs-platform-*
         upload_patterns:

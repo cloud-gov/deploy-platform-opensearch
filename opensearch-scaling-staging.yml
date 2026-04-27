@@ -68,9 +68,9 @@
 - type: replace
   path: /instance_groups/name=maintenance?/jobs?/name=smoke_tests?/properties?/smoke_tests?/count_test?
   value:
-    index_pattern: logs-app-*
+    index_pattern: logs-platform-*
     minimum: 1000
-    run: false
+    run: true
     time_field: '@timestamp'
     time_interval: 5m
 
@@ -85,14 +85,8 @@
   value: 1d
 
 - type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/shard_count?
+  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/platform_shard_count?
   value: 2
-
-- type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/metrics_shard_count?
-  value: 1
-
-
 
 - type: replace
   path: /instance_groups/name=maintenance?/instances?

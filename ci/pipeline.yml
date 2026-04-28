@@ -6,6 +6,9 @@ groups:
       - deploy-opensearch-development
       - upload-dashboards-objects-development
       - smoke-tests-development
+  - name: staging
+    jobs:
+      - deploy-opensearch-staging
 
 jobs:
   - name: build-opensearch-test-release
@@ -98,7 +101,6 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
-            - deploy-logs-platform-config/opsfiles/cf-development.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:
@@ -204,7 +206,6 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
-            - deploy-logs-platform-config/opsfiles/cf-staging.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:
@@ -247,6 +248,13 @@ resources:
       versioned_file: ((tf-state-file-development))
       region_name: ((aws-region))
 
+  - name: terraform-yaml-staging
+    type: s3-iam
+    source:
+      bucket: ((tf-state-bucket-staging))
+      versioned_file: ((tf-state-file-staging))
+      region_name: ((aws-region))
+
   - name: tests-timer
     type: time
     source:
@@ -282,6 +290,16 @@ resources:
       client_secret: ((bosh-director-info.development.client_secret))
       ca_cert: ((bosh-director-info.development.ca_cert))
       deployment: logs-platform
+  
+  - name: opensearch-staging-deployment
+    type: bosh-deployment
+    source: &bosh-params-staging
+      target: ((bosh-director-info.staging.environment))
+      client: ((bosh-director-info.staging.client))
+      client_secret: ((bosh-director-info.staging.client_secret))
+      ca_cert: ((bosh-director-info.staging.ca_cert))
+      deployment: logs-platform
+
   - name: general-task
     type: registry-image
     source:
@@ -318,6 +336,7 @@ resource_types:
       repository: bosh-deployment-resource
       aws_region: us-gov-west-1
       tag: latest
+
   - name: s3-iam
     type: registry-image
     source:
@@ -326,6 +345,7 @@ resource_types:
       repository: s3-resource
       aws_region: us-gov-west-1
       tag: latest
+
   - name: git
     type: registry-image
     source:

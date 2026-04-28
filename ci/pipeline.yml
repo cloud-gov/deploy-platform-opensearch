@@ -211,6 +211,50 @@ jobs:
           vars_files:
             - terraform-secrets/terraform.yml
 
+  - name: upload-dashboards-objects-staging
+    serial_groups: [bosh-staging]
+    plan:
+      - in_parallel:
+          - get: pipeline-tasks
+          - get: opensearch-test-release
+          - get: opensearch-stemcell-jammy
+          - get: deploy-logs-platform-config
+          - get: opensearch-staging-deployment
+            trigger: true
+      - task: upload-dashboards-objects
+        file: pipeline-tasks/bosh-logs-errand.yml
+        params:
+          BOSH_ENVIRONMENT: ((bosh_staging_environment))
+          BOSH_CLIENT: ((bosh_client))
+          BOSH_CLIENT_SECRET: ((bosh_staging_client_secret))
+          BOSH_DEPLOYMENT: logs-platform
+          BOSH_ERRAND: upload-dashboards-objects
+          BOSH_FLAGS: "--keep-alive"
+          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+
+  - name: smoke-tests-staging
+    serial_groups: [bosh-staging]
+    plan:
+      - in_parallel:
+          - get: tests-timer
+          - get: pipeline-tasks
+          - get: opensearch-test-release
+          - get: opensearch-stemcell-jammy
+          - get: deploy-logs-platform-config
+          - get: opensearch-staging-deployment
+            trigger: true
+      - task: smoke-tests
+        file: pipeline-tasks/bosh-logs-errand.yml
+        params:
+          BOSH_ENVIRONMENT: ((bosh_staging_environment))
+          BOSH_CLIENT: ((bosh_client))
+          BOSH_CLIENT_SECRET: ((bosh_staging_client_secret))
+          BOSH_DEPLOYMENT: logs-platform
+          BOSH_ERRAND: smoke_tests
+          BOSH_FLAGS: "--keep-alive"
+          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+
+
 resources:
   - name: opensearch-test-release-git-repo
     type: git

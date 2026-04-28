@@ -4,7 +4,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_manager?/instances?
-  value: 1
+  value: 3
 
 
 - type: replace
@@ -57,7 +57,7 @@
 
 - type: replace
   path: /instance_groups/name=ingestor?/instances?
-  value: 1
+  value: 5
 
 - type: replace
   path: /instance_groups/name=ingestor?/vm_type?

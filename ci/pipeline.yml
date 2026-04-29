@@ -9,6 +9,11 @@ groups:
   - name: staging
     jobs:
       - deploy-opensearch-staging
+      - upload-dashboards-objects-staging
+      - smoke-tests-staging
+  - name: production
+    jobs:
+      - deploy-opensearch-production
 
 jobs:
   - name: build-opensearch-test-release
@@ -254,6 +259,60 @@ jobs:
           BOSH_FLAGS: "--keep-alive"
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
 
+  - name: deploy-opensearch-production
+    serial_groups: [bosh-production]
+    plan:
+      - in_parallel:
+          - get: pipeline-tasks
+          - get: deploy-logs-platform-config
+            passed: [smoke-tests-staging]
+            trigger: true
+          - get: opensearch-test-release
+            passed: [smoke-tests-staging]
+            trigger: true
+          - get: opensearch-stemcell-jammy
+            passed: [smoke-tests-staging]
+            trigger: true
+          - get: general-task
+          - get: terraform-yaml
+            resource: terraform-yaml-production
+            trigger: true
+      - task: opensearch-manifest
+        image: general-task
+        config:
+          platform: linux
+          inputs:
+            - name: deploy-logs-platform-config
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                bosh int deploy-logs-platform-config/opensearch-base.yml \
+                -o deploy-logs-platform-config/opensearch-scaling-production.yml \
+                > opensearch-manifest/manifest.yml
+          outputs:
+            - name: opensearch-manifest
+      - task: terraform-secrets
+        image: general-task
+        file: deploy-logs-platform-config/ci/terraform-secrets.yml
+      - put: opensearch-production-deployment
+        params:
+          manifest: opensearch-manifest/manifest.yml
+          releases:
+            - opensearch-test-release/*.tgz
+          stemcells:
+            - opensearch-stemcell-jammy/*.tgz
+          ops_files:
+            - deploy-logs-platform-config/opsfiles/enable-node-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
+            - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-syslog.yml
+            - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
+            - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
+          vars_files:
+            - terraform-secrets/terraform.yml
 
 resources:
   - name: opensearch-test-release-git-repo
@@ -299,6 +358,13 @@ resources:
       versioned_file: ((tf-state-file-staging))
       region_name: ((aws-region))
 
+  - name: terraform-yaml-production
+    type: s3-iam
+    source:
+      bucket: ((tf-state-bucket-production))
+      versioned_file: ((tf-state-file-production))
+      region_name: ((aws-region))
+
   - name: tests-timer
     type: time
     source:
@@ -342,6 +408,15 @@ resources:
       client: ((bosh-director-info.staging.client))
       client_secret: ((bosh-director-info.staging.client_secret))
       ca_cert: ((bosh-director-info.staging.ca_cert))
+      deployment: logs-platform
+
+  - name: opensearch-production-deployment
+    type: bosh-deployment
+    source: &bosh-params-staging
+      target: ((bosh-director-info.production.environment))
+      client: ((bosh-director-info.production.client))
+      client_secret: ((bosh-director-info.production.client_secret))
+      ca_cert: ((bosh-director-info.production.ca_cert))
       deployment: logs-platform
 
   - name: general-task

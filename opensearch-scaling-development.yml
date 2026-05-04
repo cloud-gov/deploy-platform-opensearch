@@ -71,6 +71,9 @@
   path: /instance_groups/name=ingestor_s3?/vm_type?
   value: m6i.large
   
+- type: replace
+  path: /instance_groups/name=ingestor_s3?/prefix?
+  value: 2026/03/25/04/
 
 
 - type: replace

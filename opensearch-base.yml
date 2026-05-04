@@ -425,7 +425,12 @@ instance_groups:
         s3:
           bucket: ((recovery_bucket))
           region: ((region))
-          prefix: 2026/03/25/04/
+          prefix: 2026/03/25/05/
+          codec:
+            multiline:
+              pattern: ".*"
+              what: "previous"
+              negate: "false"
         syslog_tls:
           port: 6972
           ssl_cert: ((ingestor_syslog_server_tls.certificate))

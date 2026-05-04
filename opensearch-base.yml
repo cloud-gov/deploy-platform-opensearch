@@ -363,7 +363,7 @@ instance_groups:
             temporary_directory: /var/vcap/data/ingestor_syslog/s3_temp
             # note that this is different than in the archivers
             # here, we're uploading the parsed message as json, not the raw log line
-            codec: json
+            codec: json_lines
         - plugin: opensearch
           options: {}
         deployment_dictionary:

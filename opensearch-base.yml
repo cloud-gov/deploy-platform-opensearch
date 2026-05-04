@@ -451,7 +451,7 @@ instance_groups:
   persistent_disk_type: logs_opensearch_ingestor
   stemcell: default
   vm_extensions:
-  - logs-opensearch-ingestor-profile
+  - platform-opensearch-ingestor-profile
   - 20GB_ephemeral_disk
   vm_type: t3.large
   update:

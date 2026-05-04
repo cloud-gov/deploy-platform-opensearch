@@ -425,6 +425,7 @@ instance_groups:
         s3:
           bucket: ((recovery_bucket))
           region: ((region))
+          prefix: 2026/03/25/04/
         syslog_tls:
           port: 6972
           ssl_cert: ((ingestor_syslog_server_tls.certificate))
@@ -433,7 +434,7 @@ instance_groups:
         opensearch:
           data_hosts:
           - localhost
-          index: "logs-platform-%{+YYYY.MM.dd}"
+          index: "jason"
           index_type: '%{@type}'
           ssl:
             ca: ((opensearch_node.ca))

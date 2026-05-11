@@ -9,7 +9,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/instances?
-  value: 2
+  value: 0
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/vm_type?
@@ -41,7 +41,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards?/instances?
-  value: 1
+  value: 0
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards?/vm_type?
@@ -57,7 +57,7 @@
 
 - type: replace
   path: /instance_groups/name=ingestor?/instances?
-  value: 1
+  value: 0
 
 - type: replace
   path: /instance_groups/name=ingestor?/vm_type?
@@ -65,7 +65,7 @@
 
 - type: replace
   path: /instance_groups/name=ingestor_s3?/instances?
-  value: 1
+  value: 0
 
 - type: replace
   path: /instance_groups/name=ingestor_s3?/vm_type?
@@ -104,7 +104,7 @@
 
 - type: replace
   path: /instance_groups/name=maintenance?/instances?
-  value: 1
+  value: 0
 
 - type: replace
   path: /instance_groups/name=maintenance?/vm_type?

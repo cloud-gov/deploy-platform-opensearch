@@ -47,9 +47,9 @@ instance_groups:
         ip_addresses: true
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         node:
@@ -102,9 +102,9 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         oidc:
@@ -168,9 +168,9 @@ instance_groups:
         as: opensearch_manager
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         oidc:
@@ -222,9 +222,9 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         oidc:
@@ -331,9 +331,9 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         heap_size: 1G
@@ -421,9 +421,9 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         heap_size: 1G
@@ -492,9 +492,9 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        reindex:
-          remote:
-            allowlist: ((elastic_master))
+        repository:
+          s3:
+            region: ((region))
         deployment_type:
         - platform
         oidc:

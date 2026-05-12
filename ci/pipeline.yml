@@ -1,5 +1,16 @@
 ---
 groups:
+  - name: all 
+    jobs:
+      - build-opensearch-test-release
+      - deploy-opensearch-development
+      - upload-dashboards-objects-development
+      - smoke-tests-development
+      - deploy-opensearch-staging
+      - upload-dashboards-objects-staging
+      - smoke-tests-staging
+      - deploy-opensearch-production
+      - upload-dashboards-objects-production
   - name: development
     jobs:
       - build-opensearch-test-release
@@ -14,6 +25,7 @@ groups:
   - name: production
     jobs:
       - deploy-opensearch-production
+      - upload-dashboards-objects-production
 
 jobs:
   - name: build-opensearch-test-release
@@ -110,13 +122,6 @@ jobs:
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:
             - terraform-secrets/terraform.yml
-    # on_failure:
-    #   put: slack
-    #   params:
-    #     <<: *slack-failure-params
-    #     text: |
-    #       :x: FAILED to deploy logs-platform in development
-    #       <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
   
   - name: upload-dashboards-objects-development
     serial_groups: [bosh-development]
@@ -225,6 +230,7 @@ jobs:
           - get: opensearch-stemcell-jammy
           - get: deploy-logs-platform-config
           - get: opensearch-staging-deployment
+            passed: [deploy-opensearch-staging]
             trigger: true
       - task: upload-dashboards-objects
         file: pipeline-tasks/bosh-logs-errand.yml
@@ -247,6 +253,7 @@ jobs:
           - get: opensearch-stemcell-jammy
           - get: deploy-logs-platform-config
           - get: opensearch-staging-deployment
+            passed: [deploy-opensearch-staging]
             trigger: true
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
@@ -314,13 +321,35 @@ jobs:
           vars_files:
             - terraform-secrets/terraform.yml
 
+  - name: upload-dashboards-objects-production
+    serial_groups: [bosh-production]
+    plan:
+      - in_parallel:
+          - get: pipeline-tasks
+          - get: opensearch-test-release
+          - get: opensearch-stemcell-jammy
+          - get: deploy-logs-platform-config
+          - get: opensearch-production-deployment
+            passed: [deploy-opensearch-production]
+            trigger: true
+      - task: upload-dashboards-objects
+        file: pipeline-tasks/bosh-logs-errand.yml
+        params:
+          BOSH_ENVIRONMENT: ((bosh_production_environment))
+          BOSH_CLIENT: ((bosh_client))
+          BOSH_CLIENT_SECRET: ((bosh_production_client_secret))
+          BOSH_DEPLOYMENT: logs-platform
+          BOSH_ERRAND: upload-dashboards-objects
+          BOSH_FLAGS: "--keep-alive"
+          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+
 resources:
   - name: opensearch-test-release-git-repo
     type: git
     source:
       commit_verification_keys: ((cloud-gov-pgp-keys))
       uri: https://github.com/cloud-gov/opensearch-boshrelease
-      branch: platform
+      branch: main
 
   - name: opensearch-final-builds-dir-tarball
     type: s3-iam
@@ -388,10 +417,7 @@ resources:
       commit_verification_keys: ((cloud-gov-pgp-keys))
       uri: https://github.com/cloud-gov/cg-pipeline-tasks.git
       branch: main
-  # - name: slack
-  #   type: slack-notification
-  #   source:
-  #     url: ((slack-webhook-url))
+
   - name: opensearch-development-deployment
     type: bosh-deployment
     source: &bosh-params-development
@@ -437,15 +463,6 @@ resource_types:
       repository: registry-image-resource
       aws_region: us-gov-west-1
       tag: latest
-
-  # - name: slack-notification
-  #   type: registry-image
-  #   source:
-  #     aws_access_key_id: ((ecr_aws_key))
-  #     aws_secret_access_key: ((ecr_aws_secret))
-  #     repository: slack-notification-resource
-  #     aws_region: us-gov-west-1
-  #     tag: latest
 
   - name: bosh-deployment
     type: registry-image

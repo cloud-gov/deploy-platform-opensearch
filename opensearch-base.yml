@@ -51,7 +51,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         node:
@@ -108,7 +108,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:
@@ -176,7 +176,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:
@@ -232,7 +232,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:
@@ -343,7 +343,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         heap_size: 1G
@@ -435,7 +435,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         heap_size: 1G
@@ -508,7 +508,7 @@ instance_groups:
           s3:
             region: ((region))
             access_key: ((repository_access_key))
-            secrets_key: ((repository_secret_key))
+            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:

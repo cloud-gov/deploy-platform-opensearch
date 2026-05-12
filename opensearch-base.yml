@@ -135,7 +135,7 @@ instance_groups:
   networks:
   - name: services
   update:
-    max_in_flight: 1 # Only update 1 data node at a time or risk downtime
+    max_in_flight: 2 
     serial: true # Block on this job to create deploy group 2
   env:
     bosh:
@@ -394,6 +394,7 @@ instance_groups:
   networks:
   - name: services
   update:
+    max_in_flight: 2 
     serial: true # Block on this job to create deploy group 5
 
 - name: ingestor_s3

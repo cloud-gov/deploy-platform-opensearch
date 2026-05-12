@@ -25,7 +25,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_old_data?/instances?
-  value: 4
+  value: 0
 
 - type: replace
   path: /instance_groups/name=opensearch_old_data?/vm_type?

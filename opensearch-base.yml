@@ -47,11 +47,6 @@ instance_groups:
         ip_addresses: true
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         node:
@@ -104,11 +99,6 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:
@@ -172,11 +162,6 @@ instance_groups:
         as: opensearch_manager
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:
@@ -228,11 +213,6 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:
@@ -339,11 +319,6 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         heap_size: 1G
@@ -431,11 +406,6 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         heap_size: 1G
@@ -504,11 +474,6 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch:
-        repository:
-          s3:
-            region: ((region))
-            access_key: ((repository_access_key))
-            secret_key: ((repository_secret_key))
         deployment_type:
         - platform
         oidc:

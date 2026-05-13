@@ -61,7 +61,7 @@
 
 - type: replace
   path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/rollover_document_size?
-  value: 400gb
+  value: 125gb
 
 
 - type: replace

@@ -12,14 +12,6 @@
     keystorepass: ((keystore_password))
     defaultkeystorepass: ((default_keystore_password))
 
-
-- type: replace
-  path: /instance_groups/name=opensearch_old_data/jobs/name=opensearch/properties/opensearch/notification?
-  value:
-    keystorepass: ((keystore_password))
-    defaultkeystorepass: ((default_keystore_password))
-
-
 - type: replace
   path: /instance_groups/name=opensearch_dashboards/jobs/name=opensearch/properties/opensearch/notification?
   value:

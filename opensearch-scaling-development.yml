@@ -24,22 +24,6 @@
 
 
 - type: replace
-  path: /instance_groups/name=opensearch_old_data?/instances?
-  value: 0
-
-- type: replace
-  path: /instance_groups/name=opensearch_old_data?/vm_type?
-  value: r6i.xlarge
-
-- type: replace
-  path: /instance_groups/name=opensearch_old_data?/update?
-  value: 
-    max_in_flight: 1
-    canaries: 1
-    serial: true
-
-
-- type: replace
   path: /instance_groups/name=opensearch_dashboards?/instances?
   value: 1
 

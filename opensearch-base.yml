@@ -31,72 +31,16 @@ instance_groups:
 #######################################################
 #First deploy group - opensearch_data
 # Data nodes are updated first as they are the most flexible with ingestors and need to be complete before managers.
-# we run 2 at a time to cut down on collisions. Data nodes can be updated 1 at a time or 2 at a time
-# DO NOT DO 3
+# we run 2 at a time to cut down on collisions.
 #######################################################
-- name: opensearch_old_data
-  instances: 11
+- name: opensearch_data
+  instances: 5
   jobs:
   - name: bpm
     release: bpm
   - name: opensearch
     release: opensearch
     consumes: &consumes-opensearch-manager
-      opensearch:
-        from: opensearch_manager
-        ip_addresses: true
-    properties:
-      opensearch:
-        deployment_type:
-        - platform
-        node:
-          attributes:
-            box_type: warm
-          allow_cluster_manager: false
-          allow_data: true
-        limits:
-          fd: 131072  # 2 ** 17
-        health:
-          timeout: 900
-          disable_post_start: true
-        recovery:
-          delay_allocation_restart: "15m"
-        config_options:
-          indices.query.bool.max_clause_count: 2048
-        oidc:
-          enabled: true
-          client_id: ((client_id))
-          client_secret: ((client_secret))
-          openid_connect_url: ((oidc_issuer_url))
-          redirect_url: ((redirect_url))
-          token_url: ((token_url))
-        jvm_options:
-          - "-Dlog4j2.formatMsgNoLookups=true"
-        cf:
-          client_id: opensearch_client_id
-  persistent_disk_type: logs_opensearch_os_old_data
-  stemcell: default
-  azs: [z1,z2]
-  vm_type: t3.large
-  vm_extensions:
-  - logs-opensearch-profile
-  networks:
-  - name: services
-  update:
-    serial: true # Block on this job to create deploy group 2
-    max_in_flight: 1 # Only update 1 data node at a time or risk downtime
-  env:
-    bosh:
-      swap_size: 0
-
-- name: opensearch_data
-  instances: 11
-  jobs:
-  - name: bpm
-    release: bpm
-  - name: opensearch
-    release: opensearch
-    consumes: *consumes-opensearch-manager
     properties:
       opensearch:
         deployment_type:
@@ -126,7 +70,7 @@ instance_groups:
           - "-Dlog4j2.formatMsgNoLookups=true"
         cf:
           client_id: opensearch_client_id
-  persistent_disk_type: logs_opensearch_os_data
+  persistent_disk_type: logs_opensearch_os_platform_data
   stemcell: default
   azs: [z1,z2]
   vm_extensions:

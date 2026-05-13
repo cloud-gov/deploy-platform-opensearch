@@ -77,12 +77,8 @@
   value: 1d
 
 - type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/shard_count?
+  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/platform_shard_count?
   value: 2
-
-- type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/metrics_shard_count?
-  value: 1
 
 
 

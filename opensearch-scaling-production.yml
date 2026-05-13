@@ -110,7 +110,7 @@
         aliases:
         - domain: nats.service.cf.internal
           targets:
-          - deployment: cf-development
+          - deployment: cf-production
             domain: bosh
             instance_group: nats
             network: default

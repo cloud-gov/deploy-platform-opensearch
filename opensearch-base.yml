@@ -41,6 +41,9 @@ instance_groups:
   - name: opensearch
     release: opensearch
     consumes: &consumes-opensearch-manager
+      opensearch:
+        from: opensearch_manager
+        ip_addresses: true
     properties:
       opensearch:
         deployment_type:

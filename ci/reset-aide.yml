@@ -2,11 +2,11 @@
 platform: linux
 
 inputs:
-  - { name: deploy-logs-opensearch-config }
+  - { name: deploy-logs-platform-config }
 
 
 run:
-  path: deploy-logs-opensearch-config/ci/reset-aide.sh
+  path: deploy-logs-platform-config/ci/reset-aide.sh
 
 params:
   BOSH_CA_CERT:

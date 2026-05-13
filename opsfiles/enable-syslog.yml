@@ -6,9 +6,9 @@
     name: ingestor_syslog_client_tls
     options:
       alternative_names:
-      - logs-opensearch.ingestor.service.cf.internal
+      - logs-platform.ingestor.service.cf.internal
       ca: opensearch_ca
-      common_name: logs-opensearch.ingestor.service.cf.internal
+      common_name: logs-platform.ingestor.service.cf.internal
       extended_key_usage:
       - client_auth
     type: certificate
@@ -20,9 +20,9 @@
     name: ingestor_syslog_server_tls
     options:
       alternative_names:
-      - logs-opensearch.ingestor.service.cf.internal
+      - logs-platform.ingestor.service.cf.internal
       ca: opensearch_ca
-      common_name: logs-opensearch.ingestor.service.cf.internal
+      common_name: logs-platform.ingestor.service.cf.internal
       extended_key_usage:
       - server_auth
     type: certificate
@@ -34,9 +34,9 @@
     name: archiver_syslog_client_tls
     options:
       alternative_names:
-      - logs-opensearch.archiver.service.cf.internal
+      - logs-platform.archiver.service.cf.internal
       ca: opensearch_ca
-      common_name: logs-opensearch.archiver.service.cf.internal
+      common_name: logs-platform.archiver.service.cf.internal
       extended_key_usage:
       - client_auth
     type: certificate
@@ -48,9 +48,9 @@
     name: archiver_syslog_server_tls
     options:
       alternative_names:
-      - logs-opensearch.archiver.service.cf.internal
+      - logs-platform.archiver.service.cf.internal
       ca: opensearch_ca
-      common_name: logs-opensearch.archiver.service.cf.internal
+      common_name: logs-platform.archiver.service.cf.internal
       extended_key_usage:
       - server_auth
     type: certificate
@@ -62,9 +62,9 @@
     name: archiver_syslog_client_tls
     options:
       alternative_names:
-      - logs-opensearch.archiver.service.cf.internal
+      - logs-platform.archiver.service.cf.internal
       ca: opensearch_ca
-      common_name: logs-opensearch.archiver.service.cf.internal
+      common_name: logs-platform.archiver.service.cf.internal
       extended_key_usage:
       - client_auth
     type: certificate
@@ -76,9 +76,9 @@
     name: archiver_syslog_server_tls
     options:
       alternative_names:
-      - logs-opensearch.archiver.service.cf.internal
+      - logs-platform.archiver.service.cf.internal
       ca: opensearch_ca
-      common_name: logs-opensearch.archiver.service.cf.internal
+      common_name: logs-platform.archiver.service.cf.internal
       extended_key_usage:
       - server_auth
     type: certificate

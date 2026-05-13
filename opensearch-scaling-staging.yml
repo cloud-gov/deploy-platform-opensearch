@@ -1,6 +1,6 @@
 - type: replace
   path: /instance_groups/name=opensearch_manager?/vm_type?
-  value: m6i.large
+  value: t3.large
 
 - type: replace
   path: /instance_groups/name=opensearch_manager?/instances?
@@ -9,11 +9,11 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/instances?
-  value: 3
+  value: 2
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/vm_type?
-  value: r6i.large
+  value: r6i.xlarge
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/update?
@@ -25,11 +25,11 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_old_data?/instances?
-  value: 3
+  value: 0
 
 - type: replace
   path: /instance_groups/name=opensearch_old_data?/vm_type?
-  value: r6i.large
+  value: r6i.xlarge
 
 - type: replace
   path: /instance_groups/name=opensearch_old_data?/update?
@@ -41,7 +41,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards?/instances?
-  value: 2
+  value: 1
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards?/vm_type?
@@ -55,63 +55,24 @@
     serial: true
 
 
-
-- type: replace
-  path: /instance_groups/name=archiver?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=archiver?/vm_type?
-  value: m6i.large
-
 - type: replace
   path: /instance_groups/name=ingestor?/instances?
-  value: 1
+  value: 5
 
 - type: replace
   path: /instance_groups/name=ingestor?/vm_type?
   value: m6i.large
 
-- type: replace
-  path: /instance_groups/name=ingestor_cloudwatch_logs?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=ingestor_aws_metrics?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=ingestor_falco?/instances?
-  value: 1
-
-- type: replace
-  path: /instance_groups/name=ingestor_s3?/instances?
-  value: 1
+  
 
 - type: replace
   path: /instance_groups/name=maintenance?/jobs?/name=smoke_tests?/properties?/smoke_tests?/count_test?
   value:
-    index_pattern: logs-app-*
-    long_time_interval: 20m
-    minimum: 150
+    index_pattern: logs-platform-*
+    minimum: 1000
     run: true
     time_field: '@timestamp'
     time_interval: 5m
-
-- type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=smoke_tests?/properties?/smoke_tests?/cloudwatch_count_test?
-  value:
-    minimum: 2
-
-- type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=smoke_tests?/properties?/smoke_tests?/metric_count_test?
-  value:
-    minimum: 100
-
-- type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=smoke_tests?/properties?/smoke_tests?/audit_count_test?
-  value:
-    minimum: 10
 
 
 - type: replace
@@ -123,16 +84,9 @@
   path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/rollover_index_age?
   value: 1d
 
-
 - type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/shard_count?
+  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/platform_shard_count?
   value: 2
-
-- type: replace
-  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/metrics_shard_count?
-  value: 2
-
-
 
 - type: replace
   path: /instance_groups/name=maintenance?/instances?
@@ -162,12 +116,4 @@
             network: default
             query: '*'
 
-
-- type: replace
-  path: /instance_groups/name=archiver?/jobs?/name=archiver_syslog?/properties?/logstash_ingestor?/outputs?/0/options/bucket?
-  value: ((logs-opensearch-cf-archiver-bucket))
-
-- type: replace
-  path: /instance_groups/name=archiver?/jobs?/name=archiver_syslog?/properties?/logstash_ingestor?/outputs?/0/options/region?
-  value: us-gov-west-1
 

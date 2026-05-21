@@ -1,0 +1,107 @@
+# Add notification configuration to opensearch_manager
+- type: replace
+  path: /instance_groups/name=opensearch_manager/jobs/name=opensearch/properties/opensearch/notifications?
+  value:
+    email_accounts:
+    - from_address: ((platform_from))
+      name: platform_ses
+      smtp_host: ((platform_smtp_host))
+      smtp_method: ((smtp_method))
+      smtp_port: ((smtp_port))
+    secrets_prefix: ((opensearch-notifications-secrets-prefix))
+    channels:
+    - description: Critical security alerts for OpenSearch cluster
+      enabled: true
+      message: A security event has been detected in the OpenSearch cluster.
+      name: platform-alerts
+      sender_name: platform_ses
+      subject: OpenSearch Security Alert
+      type: email
+      users: ((platform_users))
+
+# Add notification configuration to ingestor
+- type: replace
+  path: /instance_groups/name=ingestor/jobs/name=opensearch/properties/opensearch/notifications?
+  value:
+    email_accounts:
+    - from_address: ((platform_from))
+      name: platform_ses
+      smtp_host: ((platform_smtp_host))
+      smtp_method: ((smtp_method))
+      smtp_port: ((smtp_port))
+    secrets_prefix: ((opensearch-notifications-secrets-prefix))
+    channels:
+    - description: Critical security alerts for OpenSearch cluster
+      enabled: true
+      message: A security event has been detected in the OpenSearch cluster.
+      name: platform-alerts
+      sender_name: platform_ses
+      subject: OpenSearch Security Alert
+      type: email
+      users: ((platform_users))
+
+# Add notification configuration to opensearch_data
+- type: replace
+  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch/notifications?
+  value:
+    email_accounts:
+    - from_address: ((platform_from))
+      name: platform_ses
+      smtp_host: ((platform_smtp_host))
+      smtp_method: ((smtp_method))
+      smtp_port: ((smtp_port))
+    secrets_prefix: ((opensearch-notifications-secrets-prefix))
+    channels:
+    - description: Critical security alerts for OpenSearch cluster
+      enabled: true
+      message: A security event has been detected in the OpenSearch cluster.
+      name: platform-alerts
+      sender_name: platform_ses
+      subject: OpenSearch Security Alert
+      type: email
+      users: ((platform_users))
+
+# Add notification configuration to opensearch_dashboards
+- type: replace
+  path: /instance_groups/name=opensearch_dashboards/jobs/name=opensearch_dashboards/properties/opensearch/notifications?
+  value:
+    email_accounts:
+    - from_address: ((platform_from))
+      name: platform_ses
+      smtp_host: ((platform_smtp_host))
+      smtp_method: ((smtp_method))
+      smtp_port: ((smtp_port))
+    secrets_prefix: ((opensearch-notifications-secrets-prefix))
+    channels:
+    - description: Critical security alerts for OpenSearch cluster
+      enabled: true
+      message: A security event has been detected in the OpenSearch cluster.
+      name: platform-alerts
+      sender_name: platform_ses
+      subject: OpenSearch Security Alert
+      type: email
+      users: ((platform_users))
+
+# Add notification configuration to maintenance
+- type: replace
+  path: /instance_groups/name=maintenance/jobs/name=opensearch/properties/opensearch/notifications?
+  value:
+    email_accounts:
+    - from_address: ((platform_from))
+      name: platform_ses
+      smtp_host: ((platform_smtp_host))
+      smtp_method: ((smtp_method))
+      smtp_port: ((smtp_port))
+    secrets_prefix: ((opensearch-notifications-secrets-prefix))
+    channels:
+    - description: Critical security alerts for OpenSearch cluster
+      enabled: true
+      message: A security event has been detected in the OpenSearch cluster.
+      name: platform-alerts
+      sender_name: platform_ses
+      subject: OpenSearch Security Alert
+      type: email
+      users: ((platform_users))
+
+
+

@@ -60,6 +60,8 @@ instance_groups:
             box_type: hot
           allow_cluster_manager: false
           allow_data: true
+        notifications:
+          secrets_prefix: ((opensearch-notifications-secrets-prefix))
         limits:
           fd: 131072  # 2 ** 17
         health:

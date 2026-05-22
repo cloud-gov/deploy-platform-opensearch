@@ -76,8 +76,6 @@ jobs:
     plan:
       - in_parallel:
           - get: pipeline-tasks
-          - get: midnight-trigger
-            trigger: true
           - get: deploy-logs-platform-config
             trigger: true
           - get: opensearch-test-release
@@ -173,8 +171,6 @@ jobs:
     plan:
       - in_parallel:
           - get: pipeline-tasks
-          - get: midnight-trigger
-            trigger: true
           - get: deploy-logs-platform-config
             passed: [smoke-tests-development]
             trigger: true
@@ -348,12 +344,6 @@ jobs:
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
 
 resources:
-  - name: midnight-trigger
-    type: time
-    source:
-      start: 12:00 AM
-      stop: 1:00 AM
-
   - name: opensearch-test-release-git-repo
     type: git
     source:

@@ -1,5 +1,4 @@
 ---
-# Add notification configuration to opensearch_manager
 - type: replace
   path: /instance_groups/name=opensearch_manager/jobs/name=opensearch/properties/opensearch/notifications?
   value:
@@ -43,7 +42,7 @@
 
 # Add notification configuration to opensearch_data
 - type: replace
-  path: /instance_groups/name=opensearch_data?/jobs/name=opensearch?/properties?/opensearch?/notifications?
+  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch/notifications
   value:
     email_accounts:
     - from_address: ((platform_from))
@@ -51,6 +50,7 @@
       smtp_host: ((platform_smtp_host))
       smtp_method: ((smtp_method))
       smtp_port: ((smtp_port))
+    secrets_prefix: ((opensearch-notifications-secrets-prefix))
     channels:
     - description: Critical security alerts for OpenSearch cluster
       enabled: true

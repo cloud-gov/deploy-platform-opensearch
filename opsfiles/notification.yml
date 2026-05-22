@@ -2,6 +2,8 @@
 - type: replace
   path: /instance_groups/name=opensearch_manager/jobs/name=opensearch/properties/opensearch?/notifications?
   value:
+    pork:
+      sandwich: true
     email_accounts:
     - from_address: ((platform_from))
       name: platform_ses

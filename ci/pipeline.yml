@@ -175,7 +175,6 @@ jobs:
           - get: pipeline-tasks
           - get: midnight-trigger
             trigger: true
-            passed: [] 
           - get: deploy-logs-platform-config
             passed: [smoke-tests-development]
             trigger: true

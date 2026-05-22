@@ -220,7 +220,6 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
-            - deploy-logs-platform-config/opsfiles/notification.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:

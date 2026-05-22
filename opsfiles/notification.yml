@@ -42,7 +42,7 @@
 
 # Add notification configuration to opensearch_data
 - type: replace
-  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch/notifications
+  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch?/notifications?
   value:
     email_accounts:
     - from_address: ((platform_from))

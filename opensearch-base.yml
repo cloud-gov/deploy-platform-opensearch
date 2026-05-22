@@ -62,6 +62,7 @@ instance_groups:
           allow_data: true
         notifications:
           secrets_prefix: ((opensearch-notifications-secrets-prefix))
+          testing: 2
         limits:
           fd: 131072  # 2 ** 17
         health:

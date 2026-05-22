@@ -1,4 +1,3 @@
----
 - type: replace
   path: /instance_groups/name=opensearch_manager/jobs/name=opensearch/properties/opensearch/notification?
   value:

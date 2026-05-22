@@ -176,6 +176,7 @@ jobs:
           - get: pipeline-tasks
           - get: midnight-trigger
             trigger: true
+            passed: [] 
           - get: deploy-logs-platform-config
             passed: [smoke-tests-development]
             trigger: true
@@ -416,7 +417,7 @@ resources:
     source:
       commit_verification_keys: ((cloud-gov-pgp-keys))
       uri: https://github.com/cloud-gov/deploy-platform-opensearch.git
-      branch: main
+      branch: platform
 
   - name: opensearch-stemcell-jammy
     source:

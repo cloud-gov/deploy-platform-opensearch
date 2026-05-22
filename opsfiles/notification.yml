@@ -40,28 +40,25 @@
       type: email
       users: ((platform_users))
 
-# Add email accounts to opensearch_data notifications
+# Add notification configuration to opensearch_data
 - type: replace
-  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch/notifications/email_accounts?
+  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch/notifications
   value:
-  - from_address: ((platform_from))
-    name: platform_ses
-    smtp_host: ((platform_smtp_host))
-    smtp_method: ((smtp_method))
-    smtp_port: ((smtp_port))
-
-# Add channels to opensearch_data notifications  
-- type: replace
-  path: /instance_groups/name=opensearch_data/jobs/name=opensearch/properties/opensearch/notifications/channels?
-  value:
-  - description: Critical security alerts for OpenSearch cluster
-    enabled: true
-    message: A security event has been detected in the OpenSearch cluster.
-    name: platform-alerts
-    sender_name: platform_ses
-    subject: OpenSearch Security Alert
-    type: email
-    users: ((platform_users))
+    email_accounts:
+    - from_address: ((platform_from))
+      name: platform_ses
+      smtp_host: ((platform_smtp_host))
+      smtp_method: ((smtp_method))
+      smtp_port: ((smtp_port))
+    channels:
+    - description: Critical security alerts for OpenSearch cluster
+      enabled: true
+      message: A security event has been detected in the OpenSearch cluster.
+      name: platform-alerts
+      sender_name: platform_ses
+      subject: OpenSearch Security Alert
+      type: email
+      users: ((platform_users))
 
 # Add notification configuration to opensearch_dashboards
 - type: replace

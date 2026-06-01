@@ -48,7 +48,7 @@ instance_groups:
       opensearch:
         fips:
           enabled: true
-          keystore_password: keystorepasswordtester12
+          keystore_password: ((fips_keystore_password))
           ca_certificate: opensearch_node.ca
         deployment_type:
         - platform

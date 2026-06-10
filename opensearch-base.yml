@@ -49,7 +49,7 @@ instance_groups:
         fips:
           enabled: true
           keystore_password: ((fips_keystore_password))
-          ca_certificate: opensearch_node.ca
+          ca_certificate: ((opensearch_node.ca))
         deployment_type:
         - platform
         oidc:

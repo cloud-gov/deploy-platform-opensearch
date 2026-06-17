@@ -2,7 +2,6 @@
 groups:
   - name: all 
     jobs:
-      - build-opensearch-test-release
       - deploy-opensearch-development
       - upload-dashboards-objects-development
       - smoke-tests-development
@@ -13,7 +12,6 @@ groups:
       - upload-dashboards-objects-production
   - name: development
     jobs:
-      - build-opensearch-test-release
       - deploy-opensearch-development
       - upload-dashboards-objects-development
       - smoke-tests-development
@@ -28,48 +26,6 @@ groups:
       - upload-dashboards-objects-production
 
 jobs:
-  - name: build-opensearch-test-release
-    plan:
-      - in_parallel:
-          - get: release-git-repo
-            resource: opensearch-test-release-git-repo
-            trigger: true
-          - get: deploy-logs-platform-config
-          - get: final-builds-dir-tarball
-            resource: opensearch-final-builds-dir-tarball
-          - get: releases-dir-tarball
-            resource: opensearch-releases-dir-tarball
-          - get: general-task
-      - task: create-test-release
-        input_mapping:
-          deploy-logs-opensearch-config: deploy-logs-platform-config
-        file: deploy-logs-platform-config/ci/create-bosh-test-release.yml
-        tags: [iaas]
-        params:
-          AWS_DEFAULT_REGION: ((aws_default_region))
-          AWS_ACCESS_KEY_ID: ((aws_access_key_id))
-          AWS_SECRET_ACCESS_KEY: ((aws_secret_access_key))
-          PRIVATE_YML_CONTENT: |-
-            ---
-            blobstore:
-              options:
-                region: ((s3-bosh-blobstore-info.region))
-                bucket_name: ((s3-bosh-blobstore-info.bucket_name))
-                credentials_source: ((s3-bosh-blobstore-info.credentials_source))
-                server_side_encryption: ((s3-bosh-blobstore-info.server_side_encryption))
-      - put: opensearch-test-release
-        tags: [iaas]
-        params:
-          file: finalized-release/opensearch-test-*.tgz
-    # on_failure:
-    #   put: slack
-    #   params: &slack-failure-params
-    #     text: |
-    #       :x: FAILED to build OpenSearch BOSH release
-    #       <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
-    #     channel: ((slack-channel-customer-success))
-    #     username: ((slack-username))
-    #     icon_url: ((slack-icon-url))
     
   - name: deploy-opensearch-development
     serial_groups: [bosh-development]
@@ -78,7 +34,7 @@ jobs:
           - get: pipeline-tasks
           - get: deploy-logs-platform-config
             trigger: true
-          - get: opensearch-test-release
+          - get: opensearch-release
             trigger: true
           - get: opensearch-stemcell-jammy
             trigger: true
@@ -109,7 +65,7 @@ jobs:
         params:
           manifest: opensearch-manifest/manifest.yml
           releases:
-            - opensearch-test-release/*.tgz
+            - opensearch-release/*.tgz
           stemcells:
             - opensearch-stemcell-jammy/*.tgz
           ops_files:
@@ -128,7 +84,7 @@ jobs:
     plan:
       - in_parallel:
           - get: pipeline-tasks
-          - get: opensearch-test-release
+          - get: opensearch-release
           - get: opensearch-stemcell-jammy
           - get: deploy-logs-platform-config
           - get: opensearch-development-deployment
@@ -150,10 +106,14 @@ jobs:
       - in_parallel:
           - get: tests-timer
           - get: pipeline-tasks
-          - get: opensearch-test-release
+          - get: opensearch-release
+            passed: [deploy-opensearch-development]
           - get: opensearch-stemcell-jammy
+            passed: [deploy-opensearch-development]
           - get: deploy-logs-platform-config
+            passed: [deploy-opensearch-development]
           - get: opensearch-development-deployment
+            passed: [deploy-opensearch-development]
             trigger: true
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
@@ -174,7 +134,7 @@ jobs:
           - get: deploy-logs-platform-config
             passed: [smoke-tests-development]
             trigger: true
-          - get: opensearch-test-release
+          - get: opensearch-release
             passed: [smoke-tests-development]
             trigger: true
           - get: opensearch-stemcell-jammy
@@ -207,7 +167,7 @@ jobs:
         params:
           manifest: opensearch-manifest/manifest.yml
           releases:
-            - opensearch-test-release/*.tgz
+            - opensearch-release/*.tgz
           stemcells:
             - opensearch-stemcell-jammy/*.tgz
           ops_files:
@@ -226,7 +186,7 @@ jobs:
     plan:
       - in_parallel:
           - get: pipeline-tasks
-          - get: opensearch-test-release
+          - get: opensearch-release
           - get: opensearch-stemcell-jammy
           - get: deploy-logs-platform-config
           - get: opensearch-staging-deployment
@@ -249,9 +209,12 @@ jobs:
       - in_parallel:
           - get: tests-timer
           - get: pipeline-tasks
-          - get: opensearch-test-release
+          - get: opensearch-release
+            passed: [deploy-opensearch-development]
           - get: opensearch-stemcell-jammy
+            passed: [deploy-opensearch-development]
           - get: deploy-logs-platform-config
+            passed: [deploy-opensearch-development]
           - get: opensearch-staging-deployment
             passed: [deploy-opensearch-staging]
             trigger: true
@@ -274,7 +237,7 @@ jobs:
           - get: deploy-logs-platform-config
             passed: [smoke-tests-staging]
             trigger: true
-          - get: opensearch-test-release
+          - get: opensearch-release
             passed: [smoke-tests-staging]
             trigger: true
           - get: opensearch-stemcell-jammy
@@ -307,7 +270,7 @@ jobs:
         params:
           manifest: opensearch-manifest/manifest.yml
           releases:
-            - opensearch-test-release/*.tgz
+            - opensearch-release/*.tgz
           stemcells:
             - opensearch-stemcell-jammy/*.tgz
           ops_files:
@@ -326,7 +289,7 @@ jobs:
     plan:
       - in_parallel:
           - get: pipeline-tasks
-          - get: opensearch-test-release
+          - get: opensearch-release
           - get: opensearch-stemcell-jammy
           - get: deploy-logs-platform-config
           - get: opensearch-production-deployment
@@ -344,33 +307,12 @@ jobs:
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
 
 resources:
-  - name: opensearch-test-release-git-repo
-    type: git
-    source:
-      commit_verification_keys: ((cloud-gov-pgp-keys))
-      uri: https://github.com/cloud-gov/opensearch-boshrelease
-      branch: main
-
-  - name: opensearch-final-builds-dir-tarball
-    type: s3-iam
-    source: &bosh-releases-bucket-info
-      bucket: ((s3-bosh-releases-bucket))
-      region_name: ((aws-region))
-      server_side_encryption: AES256
-      versioned_file: final-builds-dir-opensearch.tgz
-
-  - name: opensearch-releases-dir-tarball
-    type: s3-iam
-    source:
-      <<: *bosh-releases-bucket-info
-      versioned_file: releases-dir-opensearch.tgz
-
-  - name: opensearch-test-release
+  - name: opensearch-release
     type: s3-iam
     source:
       bucket: ((s3-bosh-releases-bucket))
       region_name: ((aws-region))
-      regexp: opensearch-test-([\d\.]*).tgz
+      regexp: opensearch-([\d\.]*).tgz
       server_side_encryption: AES256
 
   - name: terraform-yaml-development

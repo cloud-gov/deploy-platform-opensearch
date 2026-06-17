@@ -46,10 +46,6 @@ instance_groups:
         ip_addresses: true
     properties:
       opensearch:
-        fips:
-          enabled: true
-          keystore_password: ((fips_keystore_password))
-          ca_certificate: ((opensearch_node.ca))
         deployment_type:
         - platform
         oidc:

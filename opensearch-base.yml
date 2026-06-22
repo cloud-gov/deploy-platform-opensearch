@@ -220,7 +220,7 @@ instance_groups:
     properties:
       opensearch_config:
         platform_index_settings:
-          index.mapping.total_fields.limit: 100
+          index.mapping.total_fields.limit: 250
           index.queries.cache.enabled: "false"
         base_index_component_name: component-index-mappings-base
         index_mappings_component_name: index-mappings

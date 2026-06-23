@@ -10,6 +10,7 @@ groups:
       - smoke-tests-staging
       - deploy-opensearch-production
       - upload-dashboards-objects-production
+      - smoke-tests-production
   - name: development
     jobs:
       - deploy-opensearch-development
@@ -24,6 +25,7 @@ groups:
     jobs:
       - deploy-opensearch-production
       - upload-dashboards-objects-production
+      - smoke-tests-production
 
 jobs:
     
@@ -78,6 +80,15 @@ jobs:
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:
             - terraform-secrets/terraform.yml
+    on_failure:
+      put: slack
+      params: &slack-failure-params
+        text: |
+          :x: FAILED to deploy platform opensearch in development
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: ((slack-channel-customer-success))
+        username: ((slack-username))
+        icon_url: ((slack-icon-url))
   
   - name: upload-dashboards-objects-development
     serial_groups: [bosh-development]
@@ -99,6 +110,13 @@ jobs:
           BOSH_ERRAND: upload-dashboards-objects
           BOSH_FLAGS: "--keep-alive"
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: FAILED to upload dashboard objects for platform opensearch in development
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
   - name: smoke-tests-development
     serial_groups: [bosh-development]
@@ -125,6 +143,13 @@ jobs:
           BOSH_ERRAND: smoke_tests
           BOSH_FLAGS: "--keep-alive"
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: Smoke tests for Platform OpenSearch in development FAILED
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
   - name: deploy-opensearch-staging
     serial_groups: [bosh-staging]
@@ -180,6 +205,13 @@ jobs:
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:
             - terraform-secrets/terraform.yml
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: FAILED to deploy platform opensearch in staging
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
   - name: upload-dashboards-objects-staging
     serial_groups: [bosh-staging]
@@ -202,6 +234,13 @@ jobs:
           BOSH_ERRAND: upload-dashboards-objects
           BOSH_FLAGS: "--keep-alive"
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: FAILED to upload dashboard objects for platform opensearch in staging
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
   - name: smoke-tests-staging
     serial_groups: [bosh-staging]
@@ -228,6 +267,13 @@ jobs:
           BOSH_ERRAND: smoke_tests
           BOSH_FLAGS: "--keep-alive"
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: Smoke tests for Platform OpenSearch in staging FAILED
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
   - name: deploy-opensearch-production
     serial_groups: [bosh-production]
@@ -283,6 +329,13 @@ jobs:
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
           vars_files:
             - terraform-secrets/terraform.yml
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: FAILED to deploy platform opensearch in production
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
   - name: upload-dashboards-objects-production
     serial_groups: [bosh-production]
@@ -305,6 +358,46 @@ jobs:
           BOSH_ERRAND: upload-dashboards-objects
           BOSH_FLAGS: "--keep-alive"
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: FAILED to upload dashboard objects for platform opensearch in production
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+
+  - name: smoke-tests-production
+    serial_groups: [bosh-production]
+    plan:
+      - in_parallel:
+          - get: tests-timer
+          - get: pipeline-tasks
+          - get: opensearch-release
+            passed: [deploy-opensearch-staging]
+          - get: opensearch-stemcell-jammy
+            passed: [deploy-opensearch-staging]
+          - get: deploy-logs-platform-config
+            passed: [deploy-opensearch-staging]
+          - get: opensearch-production-deployment
+            passed: [deploy-opensearch-production]
+            trigger: true
+      - task: smoke-tests
+        file: pipeline-tasks/bosh-logs-errand.yml
+        params:
+          BOSH_ENVIRONMENT: ((bosh_production_environment))
+          BOSH_CLIENT: ((bosh_client))
+          BOSH_CLIENT_SECRET: ((bosh_production_client_secret))
+          BOSH_DEPLOYMENT: logs-platform
+          BOSH_ERRAND: smoke_tests
+          BOSH_FLAGS: "--keep-alive"
+          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
+    on_failure:
+      put: slack
+      params: 
+        <<: *slack-failure-params
+        text: |
+          :x: Smoke tests for Platform OpenSearch in production FAILED
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
 resources:
   - name: opensearch-release
@@ -340,6 +433,11 @@ resources:
     type: time
     source:
       interval: 30m
+  
+  - name: slack
+    type: slack-notification
+    source:
+      url: ((slack-webhook-url))
 
   - name: deploy-logs-platform-config
     type: git
@@ -397,6 +495,15 @@ resources:
       tag: latest
 
 resource_types:
+  - name: slack-notification
+    type: registry-image
+    source:
+      aws_access_key_id: ((ecr_aws_key))
+      aws_secret_access_key: ((ecr_aws_secret))
+      repository: slack-notification-resource
+      aws_region: us-gov-west-1
+      tag: latest
+
   - name: registry-image
     type: registry-image
     source:

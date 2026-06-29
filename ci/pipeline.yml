@@ -78,6 +78,7 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
+            - deploy-logs-platform-config/opsfiles/enable-snapshot.yml
           vars_files:
             - terraform-secrets/terraform.yml
     on_failure:

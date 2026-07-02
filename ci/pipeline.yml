@@ -81,15 +81,7 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-snapshot.yml
           vars_files:
             - terraform-secrets/terraform.yml
-    on_failure:
-      put: slack
-      params: &slack-failure-params
-        text: |
-          :x: FAILED to deploy platform opensearch in development
-          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
-        channel: ((slack-channel-customer-success))
-        username: ((slack-username))
-        icon_url: ((slack-icon-url))
+    
   
   - name: upload-dashboards-objects-development
     serial_groups: [bosh-development]
@@ -113,11 +105,13 @@ jobs:
           BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
-      params: 
-        <<: *slack-failure-params
+      params: &slack-failure-params
         text: |
-          :x: FAILED to upload dashboard objects for platform opensearch in development
+          :x: FAILED to deploy platform opensearch in development
           <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+        channel: ((slack-channel-customer-success))
+        username: ((slack-username))
+        icon_url: ((slack-icon-url))
 
   - name: smoke-tests-development
     serial_groups: [bosh-development]
@@ -204,6 +198,7 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
+            - deploy-logs-platform-config/opsfiles/enable-snapshot.yml
           vars_files:
             - terraform-secrets/terraform.yml
     on_failure:
@@ -328,6 +323,7 @@ jobs:
             - deploy-logs-platform-config/opsfiles/enable-syslog.yml
             - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
             - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
+            - deploy-logs-platform-config/opsfiles/enable-snapshot.yml
           vars_files:
             - terraform-secrets/terraform.yml
     on_failure:
@@ -445,7 +441,7 @@ resources:
     source:
       commit_verification_keys: ((cloud-gov-pgp-keys))
       uri: https://github.com/cloud-gov/deploy-platform-opensearch.git
-      branch: main
+      branch: platform
 
   - name: opensearch-stemcell-jammy
     source:

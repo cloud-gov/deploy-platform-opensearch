@@ -151,7 +151,7 @@ instance_groups:
   instances: 1
   vm_extensions:
     - 20GB_ephemeral_disk
-    - logs-opensearch-ingestor-profile
+    - platform-opensearch-ingestor-profile
   jobs:
   - name: bpm
     release: bpm

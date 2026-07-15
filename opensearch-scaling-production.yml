@@ -41,11 +41,11 @@
 
 - type: replace
   path: /instance_groups/name=ingestor?/instances?
-  value: 8
+  value: 6
 
 - type: replace
   path: /instance_groups/name=ingestor?/vm_type?
-  value: m6i.large
+  value: r6i.xlarge.logsearch.ingestor
 
   
 

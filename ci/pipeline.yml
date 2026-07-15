@@ -126,6 +126,7 @@ jobs:
     plan:
       - in_parallel:
           - get: tests-timer
+            trigger: true
           - get: pipeline-tasks
           - get: opensearch-release
             passed: [deploy-opensearch-development]
@@ -134,8 +135,6 @@ jobs:
           - get: deploy-logs-platform-config
             passed: [deploy-opensearch-development]
           - get: opensearch-development-deployment
-            passed: [deploy-opensearch-development]
-            trigger: true
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
@@ -251,6 +250,7 @@ jobs:
     plan:
       - in_parallel:
           - get: tests-timer
+            trigger: true
           - get: pipeline-tasks
           - get: opensearch-release
             passed: [deploy-opensearch-development]
@@ -259,8 +259,6 @@ jobs:
           - get: deploy-logs-platform-config
             passed: [deploy-opensearch-development]
           - get: opensearch-staging-deployment
-            passed: [deploy-opensearch-staging]
-            trigger: true
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
@@ -376,6 +374,7 @@ jobs:
     plan:
       - in_parallel:
           - get: tests-timer
+            trigger: true
           - get: pipeline-tasks
           - get: opensearch-release
             passed: [deploy-opensearch-staging]
@@ -384,8 +383,6 @@ jobs:
           - get: deploy-logs-platform-config
             passed: [deploy-opensearch-staging]
           - get: opensearch-production-deployment
-            passed: [deploy-opensearch-production]
-            trigger: true
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
         params:

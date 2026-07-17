@@ -333,7 +333,7 @@ instance_groups:
   vm_type: t3.medium
   vm_extensions:
   - platform-opensearch-ingestor-profile
-  - platform-syslog-lb
+  - platform-syslog-udp-lb
   - 20GB_ephemeral_disk
   persistent_disk_type: logs_opensearch_ingestor
   stemcell: default

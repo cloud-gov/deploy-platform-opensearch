@@ -1,6 +1,6 @@
 - type: replace
   path: /instance_groups/name=opensearch_manager?/vm_type?
-  value: m6i.xlarge 
+  value: m6i.xlarge
 
 - type: replace
   path: /instance_groups/name=opensearch_manager?/instances?
@@ -17,7 +17,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_data?/update?
-  value: 
+  value:
     max_in_flight: 2
     canaries: 1
     serial: true
@@ -33,7 +33,7 @@
 
 - type: replace
   path: /instance_groups/name=opensearch_dashboards/update?
-  value: 
+  value:
     max_in_flight: 100%
     canaries: 100%
     serial: true
@@ -45,9 +45,9 @@
 
 - type: replace
   path: /instance_groups/name=ingestor?/vm_type?
-  value: r6i.xlarge.logsearch.ingestor
+  value: r6i.xlarge.opensearch.ingestor
 
-  
+
 
 - type: replace
   path: /instance_groups/name=maintenance?/jobs?/name=smoke_tests?/properties?/smoke_tests?/count_test?

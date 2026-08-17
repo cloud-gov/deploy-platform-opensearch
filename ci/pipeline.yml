@@ -8,6 +8,7 @@ groups:
       - deploy-opensearch-staging
       - upload-dashboards-objects-staging
       - smoke-tests-staging
+      - deploy-opensearch-production-plan
       - deploy-opensearch-production
       - upload-dashboards-objects-production
       - smoke-tests-production
@@ -23,6 +24,7 @@ groups:
       - smoke-tests-staging
   - name: production
     jobs:
+      - deploy-opensearch-production-plan
       - deploy-opensearch-production
       - upload-dashboards-objects-production
       - smoke-tests-production
@@ -277,7 +279,7 @@ jobs:
           :x: Smoke tests for Platform OpenSearch in staging FAILED
           <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
 
-  - name: deploy-opensearch-production
+  - name: deploy-opensearch-production-plan
     serial_groups: [bosh-production]
     plan:
       - in_parallel:
@@ -295,6 +297,67 @@ jobs:
           - get: terraform-yaml
             resource: terraform-yaml-production
             trigger: true
+      - task: opensearch-manifest
+        image: general-task
+        config:
+          platform: linux
+          inputs:
+            - name: deploy-logs-platform-config
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                bosh int deploy-logs-platform-config/opensearch-base.yml \
+                -o deploy-logs-platform-config/opensearch-scaling-production.yml \
+                > opensearch-manifest/manifest.yml
+          outputs:
+            - name: opensearch-manifest
+      - task: terraform-secrets
+        image: general-task
+        file: deploy-logs-platform-config/ci/terraform-secrets.yml
+      - put: opensearch-production-deployment
+        params:
+          manifest: opensearch-manifest/manifest.yml
+          releases:
+            - opensearch-release/*.tgz
+          stemcells:
+            - opensearch-stemcell-jammy/*.tgz
+          ops_files:
+            - deploy-logs-platform-config/opsfiles/enable-node-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
+            - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
+            - deploy-logs-platform-config/opsfiles/enable-syslog.yml
+            - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
+            - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
+            - deploy-logs-platform-config/opsfiles/enable-snapshot.yml
+          vars_files:
+            - terraform-secrets/terraform.yml
+          dry_run: true
+    on_failure:
+      put: slack
+      params:
+        <<: *slack-failure-params
+        text: |
+          :x: FAILED to plan platform opensearch deploy in production
+          <$ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME|View build details>
+
+  - name: deploy-opensearch-production
+    serial_groups: [bosh-production]
+    plan:
+      - in_parallel:
+          - get: pipeline-tasks
+          - get: deploy-logs-platform-config
+            passed: [deploy-opensearch-production-plan]
+          - get: opensearch-release
+            passed: [deploy-opensearch-production-plan]
+          - get: opensearch-stemcell-jammy
+            passed: [deploy-opensearch-production-plan]
+          - get: general-task
+          - get: terraform-yaml
+            resource: terraform-yaml-production
+            passed: [deploy-opensearch-production-plan]
       - task: opensearch-manifest
         image: general-task
         config:

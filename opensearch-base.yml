@@ -204,6 +204,7 @@ instance_groups:
     consumes: *consumes-opensearch-manager
     properties:
       opensearch_config:
+        platform_delete_index_age: 90d
         platform_alias: ((platform_alias))
         component_templates:
         - platform-shards-and-replica: /var/vcap/jobs/upload_opensearch_config/index-templates/shards-and-replicas-platform.json

@@ -317,7 +317,7 @@ jobs:
         image: general-task
         file: deploy-logs-platform-config/ci/terraform-secrets.yml
       - put: opensearch-production-deployment
-        params:
+        params: &opensearch-prod-params
           manifest: opensearch-manifest/manifest.yml
           releases:
             - opensearch-release/*.tgz
@@ -379,22 +379,8 @@ jobs:
         file: deploy-logs-platform-config/ci/terraform-secrets.yml
       - put: opensearch-production-deployment
         params:
-          manifest: opensearch-manifest/manifest.yml
-          releases:
-            - opensearch-release/*.tgz
-          stemcells:
-            - opensearch-stemcell-jammy/*.tgz
-          ops_files:
-            - deploy-logs-platform-config/opsfiles/enable-node-tls.yml
-            - deploy-logs-platform-config/opsfiles/enable-dashboard-dns.yml
-            - deploy-logs-platform-config/opsfiles/enable-dashboards-tls.yml
-            - deploy-logs-platform-config/opsfiles/enable-oidc-tls.yml
-            - deploy-logs-platform-config/opsfiles/enable-syslog.yml
-            - deploy-logs-platform-config/opsfiles/opensearch-notification.yml
-            - deploy-logs-platform-config/opsfiles/add-keystore-credentials-errand.yml
-            - deploy-logs-platform-config/opsfiles/enable-snapshot.yml
-          vars_files:
-            - terraform-secrets/terraform.yml
+          <<: *opensearch-prod-params
+          dry_run: false
     on_failure:
       put: slack
       params: 

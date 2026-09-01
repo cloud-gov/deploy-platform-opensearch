@@ -8,6 +8,22 @@
 
 
 - type: replace
+  path: /instance_groups/name=opensearch_old_data?/instances?
+  value: 2
+
+- type: replace
+  path: /instance_groups/name=opensearch_old_data?/vm_type?
+  value: r6i.xlarge
+
+- type: replace
+  path: /instance_groups/name=opensearch_old_data?/update?
+  value: 
+    max_in_flight: 1
+    canaries: 1
+    serial: true
+
+
+- type: replace
   path: /instance_groups/name=opensearch_data?/instances?
   value: 2
 
@@ -71,6 +87,10 @@
 - type: replace
   path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/platform_shard_count?
   value: 2
+
+- type: replace
+  path: /instance_groups/name=maintenance?/jobs?/name=upload_opensearch_config?/properties?/opensearch_config?/platform_delete_index_age?
+  value: 186d
 
 - type: replace
   path: /instance_groups/name=maintenance?/instances?

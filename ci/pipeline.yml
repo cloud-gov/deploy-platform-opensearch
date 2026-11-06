@@ -2,6 +2,7 @@
 groups:
   - name: all 
     jobs:
+      - set-self
       - deploy-opensearch-development
       - upload-dashboards-objects-development
       - smoke-tests-development
@@ -30,7 +31,13 @@ groups:
       - smoke-tests-production
 
 jobs:
-    
+  - name: set-self
+    plan:
+    - get: deploy-logs-platform-config
+      trigger: true
+    - file: deploy-logs-platform-config/ci/pipeline.yml
+      set_pipeline: self
+
   - name: deploy-opensearch-development
     serial_groups: [bosh-development]
     plan:
@@ -38,6 +45,8 @@ jobs:
           - get: pipeline-tasks
           - get: deploy-logs-platform-config
             trigger: true
+            passed:
+            - set-self
           - get: opensearch-release
             trigger: true
           - get: opensearch-stemcell-jammy
@@ -102,6 +111,8 @@ jobs:
           - get: opensearch-release
           - get: opensearch-stemcell-jammy
           - get: deploy-logs-platform-config
+            passed:
+            - set-self
           - get: opensearch-development-deployment
             trigger: true
       - task: upload-dashboards-objects

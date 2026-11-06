@@ -107,13 +107,13 @@ jobs:
       - task: upload-dashboards-objects
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
-          BOSH_ENVIRONMENT: ((bosh_development_environment))
-          BOSH_CLIENT: ((bosh_client))
-          BOSH_CLIENT_SECRET: ((bosh_development_client_secret))
+          BOSH_CA_CERT: ((bosh-director-info.development.ca_cert))
+          BOSH_CLIENT: ((bosh-director-info.development.client))
+          BOSH_CLIENT_SECRET: ((bosh-director-info.development.client_secret))
+          BOSH_ENVIRONMENT: ((bosh-director-info.development.environment))
           BOSH_DEPLOYMENT: logs-platform
           BOSH_ERRAND: upload-dashboards-objects
           BOSH_FLAGS: "--keep-alive"
-          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
       params: 
@@ -140,13 +140,13 @@ jobs:
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
-          BOSH_ENVIRONMENT: ((bosh_development_environment))
-          BOSH_CLIENT: ((bosh_client))
-          BOSH_CLIENT_SECRET: ((bosh_development_client_secret))
+          BOSH_CA_CERT: ((bosh-director-info.development.ca_cert))
+          BOSH_CLIENT: ((bosh-director-info.development.client))
+          BOSH_CLIENT_SECRET: ((bosh-director-info.development.client_secret))
+          BOSH_ENVIRONMENT: ((bosh-director-info.development.environment))
           BOSH_DEPLOYMENT: logs-platform
           BOSH_ERRAND: smoke_tests
           BOSH_FLAGS: "--keep-alive"
-          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
       params: 
@@ -232,13 +232,13 @@ jobs:
       - task: upload-dashboards-objects
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
-          BOSH_ENVIRONMENT: ((bosh_staging_environment))
-          BOSH_CLIENT: ((bosh_client))
-          BOSH_CLIENT_SECRET: ((bosh_staging_client_secret))
+          BOSH_CA_CERT: ((bosh-director-info.staging.ca_cert))
+          BOSH_CLIENT: ((bosh-director-info.staging.client))
+          BOSH_CLIENT_SECRET: ((bosh-director-info.staging.client_secret))
+          BOSH_ENVIRONMENT: ((bosh-director-info.staging.environment))
           BOSH_DEPLOYMENT: logs-platform
           BOSH_ERRAND: upload-dashboards-objects
           BOSH_FLAGS: "--keep-alive"
-          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
       params: 
@@ -264,13 +264,13 @@ jobs:
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
-          BOSH_ENVIRONMENT: ((bosh_staging_environment))
-          BOSH_CLIENT: ((bosh_client))
-          BOSH_CLIENT_SECRET: ((bosh_staging_client_secret))
+          BOSH_CA_CERT: ((bosh-director-info.staging.ca_cert))
+          BOSH_CLIENT: ((bosh-director-info.staging.client))
+          BOSH_CLIENT_SECRET: ((bosh-director-info.staging.client_secret))
+          BOSH_ENVIRONMENT: ((bosh-director-info.staging.environment))
           BOSH_DEPLOYMENT: logs-platform
           BOSH_ERRAND: smoke_tests
           BOSH_FLAGS: "--keep-alive"
-          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
       params: 
@@ -403,13 +403,13 @@ jobs:
       - task: upload-dashboards-objects
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
-          BOSH_ENVIRONMENT: ((bosh_production_environment))
-          BOSH_CLIENT: ((bosh_client))
-          BOSH_CLIENT_SECRET: ((bosh_production_client_secret))
+          BOSH_CA_CERT: ((bosh-director-info.production.ca_cert))
+          BOSH_CLIENT: ((bosh-director-info.production.client))
+          BOSH_CLIENT_SECRET: ((bosh-director-info.production.client_secret))
+          BOSH_ENVIRONMENT: ((bosh-director-info.production.environment))
           BOSH_DEPLOYMENT: logs-platform
           BOSH_ERRAND: upload-dashboards-objects
           BOSH_FLAGS: "--keep-alive"
-          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
       params: 
@@ -435,13 +435,13 @@ jobs:
       - task: smoke-tests
         file: pipeline-tasks/bosh-logs-errand.yml
         params:
-          BOSH_ENVIRONMENT: ((bosh_production_environment))
-          BOSH_CLIENT: ((bosh_client))
-          BOSH_CLIENT_SECRET: ((bosh_production_client_secret))
+          BOSH_CA_CERT: ((bosh-director-info.production.ca_cert))
+          BOSH_CLIENT: ((bosh-director-info.production.client))
+          BOSH_CLIENT_SECRET: ((bosh-director-info.production.client_secret))
+          BOSH_ENVIRONMENT: ((bosh-director-info.production.environment))
           BOSH_DEPLOYMENT: logs-platform
           BOSH_ERRAND: smoke_tests
           BOSH_FLAGS: "--keep-alive"
-          BOSH_CA_CERT: ((bosh_ca_cert_store.certificate))
     on_failure:
       put: slack
       params: 
